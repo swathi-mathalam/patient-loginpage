@@ -1,0 +1,183 @@
+.login-page {
+  min-height: 100vh;
+  background: url("https://img.freepik.com/free-photo/medical-banner-with-doctor-working-laptop_23-2149611193.jpg")
+    no-repeat center center/cover;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 20px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.login-card {
+  position: relative;
+  z-index: 10;
+  width: 420px;
+  padding: 35px;
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.25);
+
+  border-radius: 24px;
+
+  box-shadow: 0 8px 32px
+    rgba(0, 0, 0, 0.25);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 25px;
+
+  h1 {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: #d9d9d9;
+    font-size: 14px;
+  }
+}
+
+.healthcare-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.login-form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 18px;
+
+  label {
+    display: block;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+}
+
+.input-field {
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  outline: none;
+  border-radius: 12px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.18
+  );
+
+  color: #fff;
+  font-size: 14px;
+
+  box-sizing: border-box;
+}
+
+.input-field::placeholder {
+  color: #d3d3d3;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.eye-btn {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 20px;
+  color: white;
+  font-size: 14px;
+}
+
+.forgot-password {
+  cursor: pointer;
+  color: #93c5fd;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+
+  background: #0284c7;
+  color: white;
+
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #0369a1;
+}
+
+.login-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.error-text {
+  color: #ffb4b4;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.login-error {
+  color: #ff6b6b;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    width: 100%;
+    padding: 25px;
+  }
+
+  .login-header h1 {
+    font-size: 24px;
+  }
+}
