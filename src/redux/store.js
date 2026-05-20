@@ -1,3 +1,5 @@
+
+
 import {
   legacy_createStore as createStore,
   applyMiddleware,
@@ -7,6 +9,8 @@ import {
 import createSagaMiddleware from "redux-saga";
 
 import authReducer from "./reducers/authReducer";
+import patientReducer from "./reducers/patientReducer";
+
 import rootSaga from "./sagas/rootSaga";
 
 const sagaMiddleware =
@@ -15,6 +19,7 @@ const sagaMiddleware =
 const rootReducer =
   combineReducers({
     auth: authReducer,
+    patient: patientReducer,
   });
 
 const store = createStore(

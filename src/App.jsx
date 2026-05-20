@@ -5,6 +5,7 @@ import heroImg from './assets/hero.png'
 import './App.css'
 import Login from "./Pages/Login";
 import Dashboard from "./Pages/Dashboard";
+import PatientRegistration from "./pages/PatientRegistration";
 import {
   BrowserRouter,
   Routes,
@@ -26,6 +27,10 @@ return (
           path="/dashboard"
           element={<Dashboard />}
         />
+        <Route
+  path="/patients"
+  element={<PatientRegistration />}
+/>
       </Routes>
     </BrowserRouter>
   );
