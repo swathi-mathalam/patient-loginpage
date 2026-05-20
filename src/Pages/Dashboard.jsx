@@ -1,19 +1,16 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/dashboard.scss";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="dashboard-container">
       <Sidebar />
 
       <div className="dashboard-content">
-
         {/* Header */}
         <div className="dashboard-header">
           <div>
@@ -35,7 +32,6 @@ const Dashboard = () => {
 
         {/* Summary Cards */}
         <div className="summary-cards">
-
           <div className="card">
             <h3>Total Patients</h3>
             <h1>245</h1>
@@ -50,7 +46,6 @@ const Dashboard = () => {
             <h3>Active Consultations</h3>
             <h1>14</h1>
           </div>
-
         </div>
 
         {/* Quick Actions */}
@@ -58,7 +53,12 @@ const Dashboard = () => {
           <h2>Quick Actions</h2>
 
           <div className="action-buttons">
-            <button className="add-btn">
+            <button
+              className="add-btn"
+              onClick={() =>
+                navigate("/patients")
+              }
+            >
               Add New Patient
             </button>
 
@@ -67,7 +67,6 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );

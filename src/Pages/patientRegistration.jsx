@@ -176,16 +176,15 @@ const PatientRegistration = () => {
                     </TextField>
 
                     <TextField
-                      type="date"
-                      label="Date of Birth"
-                      name="dob"
-                      fullWidth
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      value={values.dob}
-                      onChange={handleChange}
-                    />
+  type="date"
+  name="dob"
+  fullWidth
+  value={values.dob}
+  onChange={handleChange}
+  onBlur={handleBlur}
+  error={touched.dob && Boolean(errors.dob)}
+  helperText={touched.dob && errors.dob}
+/>
 
                     <TextField
                       label="Blood Group"
