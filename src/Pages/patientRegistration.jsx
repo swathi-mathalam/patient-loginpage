@@ -9,12 +9,17 @@ import {
   MenuItem,
   Typography,
   Paper,
+  Snackbar,
+  Alert,
 } from "@mui/material";
+
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import "../styles/patientRegistration.scss";
+import { useDispatch } from "react-redux";
+import { createPatient } from "../redux/actions/patientActions";
 
 const steps = [
   "Basic Information",
@@ -24,22 +29,43 @@ const steps = [
 ];
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required("First Name is required"),
-  lastName: Yup.string().required("Last Name is required"),
-  dob: Yup.string().required("Date of Birth is required"),
+  firstName: Yup.string().required(
+    "First Name is required"
+  ),
+  lastName: Yup.string().required(
+    "Last Name is required"
+  ),
+  dob: Yup.string().required(
+    "Date of Birth is required"
+  ),
   mobile: Yup.string()
-    .matches(/^[0-9]{10}$/, "Enter valid mobile number")
-    .required("Mobile number is required"),
-  email: Yup.string().email("Invalid email"),
-  zipCode: Yup.string().matches(
-    /^[0-9]+$/,
-    "ZIP Code must be numeric"
+    .matches(
+      /^[0-9]{10}$/,
+      "Enter valid mobile number"
+    )
+    .required(
+      "Mobile number is required"
+    ),
+  email: Yup.string().email(
+    "Invalid email"
   ),
 });
 
 const PatientRegistration = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] =
+    useState(0);
+
+  const [openPopup, setOpenPopup] =
+    useState(false);
+
+  const [patientId, setPatientId] =
+    useState("");
+
   const navigate = useNavigate();
+
+
+  const dispatch =
+    useDispatch();
 
   const initialValues = {
     firstName: "",
@@ -66,11 +92,15 @@ const PatientRegistration = () => {
   };
 
   const handleNext = () => {
-    setActiveStep((prev) => prev + 1);
+    if (activeStep < steps.length - 1) {
+      setActiveStep((prev) => prev + 1);
+    }
   };
 
   const handleBack = () => {
-    setActiveStep((prev) => prev - 1);
+    if (activeStep > 0) {
+      setActiveStep((prev) => prev - 1);
+    }
   };
 
   const generatePatientId = () => {
@@ -79,49 +109,85 @@ const PatientRegistration = () => {
     )}`;
   };
 
-  const handleSubmit = (values, { resetForm }) => {
-    const patientId = generatePatientId();
+  // FIXED SUBMIT FUNCTION
+  const handleSubmit = (
+  values,
+  { resetForm }
+) => {
+  console.log(
+    "Submit clicked"
+  );
 
-    alert(
-      `Patient Created Successfully!\nPatient ID: ${patientId}`
-    );
+  const newPatientId =
+    generatePatientId();
 
-    console.log({
-      patientId,
-      ...values,
-    });
-
-    resetForm();
-
-    navigate("/patients");
+  const patientData = {
+    patientId:
+      newPatientId,
+    ...values,
   };
+
+  console.log(
+    "Patient Data:",
+    patientData
+  );
+
+  dispatch(
+    createPatient(
+      patientData
+    )
+  );
+
+  setPatientId(
+    newPatientId
+  );
+
+  setOpenPopup(true);
+
+  resetForm();
+
+  setTimeout(() => {
+    navigate(
+      "/patient-management"
+    );
+  }, 3000);
+};
 
   return (
     <div className="patient-page">
       <Sidebar />
 
       <div className="patient-container">
-        {/* Breadcrumb */}
-        
         <Paper className="patient-card">
-          <Typography variant="h4" mb={3}>
+          <Typography
+            variant="h4"
+            mb={3}
+          >
             Patient Registration
           </Typography>
 
           {/* Stepper */}
-          <Stepper activeStep={activeStep}>
+          <Stepper
+            activeStep={activeStep}
+            sx={{ mt: 2 }}
+          >
             {steps.map((label) => (
               <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+                <StepLabel>
+                  {label}
+                </StepLabel>
               </Step>
             ))}
           </Stepper>
 
           <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
+  initialValues={
+    initialValues
+  }
+  onSubmit={
+    handleSubmit
+  }
+>
             {({
               values,
               errors,
@@ -131,19 +197,28 @@ const PatientRegistration = () => {
               resetForm,
             }) => (
               <Form>
-                {/* SECTION 1 */}
-                {activeStep === 0 && (
+                {/* STEP 1 */}
+                {activeStep ===
+                  0 && (
                   <Box className="form-grid">
                     <TextField
                       fullWidth
                       label="First Name"
                       name="firstName"
-                      value={values.firstName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
+                      value={
+                        values.firstName
+                      }
+                      onChange={
+                        handleChange
+                      }
+                      onBlur={
+                        handleBlur
+                      }
                       error={
                         touched.firstName &&
-                        Boolean(errors.firstName)
+                        Boolean(
+                          errors.firstName
+                        )
                       }
                       helperText={
                         touched.firstName &&
@@ -155,8 +230,12 @@ const PatientRegistration = () => {
                       fullWidth
                       label="Last Name"
                       name="lastName"
-                      value={values.lastName}
-                      onChange={handleChange}
+                      value={
+                        values.lastName
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
@@ -164,12 +243,17 @@ const PatientRegistration = () => {
                       label="Gender"
                       name="gender"
                       fullWidth
-                      value={values.gender}
-                      onChange={handleChange}
+                      value={
+                        values.gender
+                      }
+                      onChange={
+                        handleChange
+                      }
                     >
                       <MenuItem value="Male">
                         Male
                       </MenuItem>
+
                       <MenuItem value="Female">
                         Female
                       </MenuItem>
@@ -181,121 +265,174 @@ const PatientRegistration = () => {
   fullWidth
   value={values.dob}
   onChange={handleChange}
-  onBlur={handleBlur}
-  error={touched.dob && Boolean(errors.dob)}
-  helperText={touched.dob && errors.dob}
+  slotProps={{
+    inputLabel: {
+      shrink: true,
+    },
+  }}
 />
 
                     <TextField
                       label="Blood Group"
                       name="bloodGroup"
                       fullWidth
-                      value={values.bloodGroup}
-                      onChange={handleChange}
+                      value={
+                        values.bloodGroup
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="Mobile Number"
                       name="mobile"
                       fullWidth
-                      value={values.mobile}
-                      onChange={handleChange}
+                      value={
+                        values.mobile
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="Email Address"
                       name="email"
                       fullWidth
-                      value={values.email}
-                      onChange={handleChange}
+                      value={
+                        values.email
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
                   </Box>
                 )}
 
-                {/* SECTION 2 */}
-                {activeStep === 1 && (
+                {/* STEP 2 */}
+                {activeStep ===
+                  1 && (
                   <Box className="form-grid">
                     <TextField
                       label="Address Line 1"
                       name="address1"
                       fullWidth
-                      value={values.address1}
-                      onChange={handleChange}
+                      value={
+                        values.address1
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="Address Line 2"
                       name="address2"
                       fullWidth
-                      value={values.address2}
-                      onChange={handleChange}
+                      value={
+                        values.address2
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="City"
                       name="city"
                       fullWidth
-                      value={values.city}
-                      onChange={handleChange}
+                      value={
+                        values.city
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="State"
                       name="state"
                       fullWidth
-                      value={values.state}
-                      onChange={handleChange}
+                      value={
+                        values.state
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="ZIP Code"
                       name="zipCode"
                       fullWidth
-                      value={values.zipCode}
-                      onChange={handleChange}
+                      value={
+                        values.zipCode
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="Country"
                       name="country"
                       fullWidth
-                      value={values.country}
-                      onChange={handleChange}
+                      value={
+                        values.country
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
                   </Box>
                 )}
 
-                {/* SECTION 3 */}
-                {activeStep === 2 && (
+                {/* STEP 3 */}
+                {activeStep ===
+                  2 && (
                   <Box className="form-grid">
                     <TextField
                       label="Emergency Contact Name"
                       name="emergencyName"
                       fullWidth
-                      value={values.emergencyName}
-                      onChange={handleChange}
+                      value={
+                        values.emergencyName
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="Relationship"
                       name="relationship"
                       fullWidth
-                      value={values.relationship}
-                      onChange={handleChange}
+                      value={
+                        values.relationship
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="Contact Number"
                       name="emergencyContact"
                       fullWidth
-                      value={values.emergencyContact}
-                      onChange={handleChange}
+                      value={
+                        values.emergencyContact
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
                   </Box>
                 )}
 
-                {/* SECTION 4 */}
-                {activeStep === 3 && (
+                {/* STEP 4 */}
+                {activeStep ===
+                  3 && (
                   <Box className="form-grid">
                     <TextField
                       label="Insurance Provider"
@@ -304,34 +441,47 @@ const PatientRegistration = () => {
                       value={
                         values.insuranceProvider
                       }
-                      onChange={handleChange}
+                      onChange={
+                        handleChange
+                      }
                     />
 
                     <TextField
                       label="Insurance ID"
                       name="insuranceId"
                       fullWidth
-                      value={values.insuranceId}
-                      onChange={handleChange}
+                      value={
+                        values.insuranceId
+                      }
+                      onChange={
+                        handleChange
+                      }
                     />
                   </Box>
                 )}
 
-                {/* Buttons */}
+                {/* BUTTONS */}
                 <div className="btn-group">
-                  {activeStep > 0 && (
+                  {activeStep >
+                    0 && (
                     <Button
                       variant="outlined"
-                      onClick={handleBack}
+                      onClick={
+                        handleBack
+                      }
                     >
                       Back
                     </Button>
                   )}
 
-                  {activeStep < 3 ? (
+                  {activeStep <
+                  steps.length -
+                    1 ? (
                     <Button
                       variant="contained"
-                      onClick={handleNext}
+                      onClick={
+                        handleNext
+                      }
                     >
                       Next
                     </Button>
@@ -347,15 +497,20 @@ const PatientRegistration = () => {
                   <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={() => resetForm()}
+                    onClick={() =>
+                      resetForm()
+                    }
                   >
                     Reset Form
                   </Button>
 
                   <Button
+                   
                     color="error"
                     onClick={() =>
-                      navigate("/dashboard")
+                      navigate(
+                        "/dashboard"
+                      )
                     }
                   >
                     Cancel
@@ -365,6 +520,44 @@ const PatientRegistration = () => {
             )}
           </Formik>
         </Paper>
+
+        {/* SUCCESS POPUP */}
+        <Snackbar
+  open={openPopup}
+  autoHideDuration={10000} // 10 seconds
+  onClose={() =>
+    setOpenPopup(false)
+  }
+  anchorOrigin={{
+    vertical: "top",
+    horizontal: "center",
+  }}
+>
+  <Alert
+    onClose={() =>
+      setOpenPopup(false)
+    }
+    severity="success"
+    variant="filled"
+    sx={{
+      width: "100%",
+      minWidth: "380px",
+      borderRadius: "16px",
+      fontSize: "16px",
+      fontWeight: "600",
+      padding: "12px 18px",
+      boxShadow:
+        "0 8px 25px rgba(0,0,0,0.18)",
+      alignItems: "center",
+    }}
+  >
+    ✅ Patient Registered Successfully!
+    <br />
+    <strong>
+      Patient ID: {patientId}
+    </strong>
+  </Alert>
+</Snackbar>
       </div>
     </div>
   );

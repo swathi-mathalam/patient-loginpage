@@ -14,6 +14,11 @@ const patientReducer = (
   state = initialState,
   action
 ) => {
+  console.log(
+    "Reducer Action:",
+    action.type
+  );
+
   switch (action.type) {
     case CREATE_PATIENT_REQUEST:
       return {
@@ -22,6 +27,11 @@ const patientReducer = (
       };
 
     case CREATE_PATIENT_SUCCESS:
+      console.log(
+        "Patient Added:",
+        action.payload
+      );
+
       return {
         ...state,
         loading: false,

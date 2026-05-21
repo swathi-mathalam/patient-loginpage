@@ -8,9 +8,13 @@ import {
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import PatientManagement from "./pages/patientRegistration";
+import PatientRegistration from "./pages/patientRegistration";
+import PatientManagement from "./pages/PatientManagement";
 import Sidebar from "./components/Sidebar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Appointments from "./pages/Appointments";
+import Consultation from "./pages/Consultation";
+import Reports from "./pages/Reports";
 
 function App() {
   return (
@@ -37,10 +41,44 @@ function App() {
           path="/patients"
           element={
             <ProtectedRoute>
-              <PatientManagement />
+              <PatientRegistration  />
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/patient-management"
+  element={
+    <ProtectedRoute>
+      <PatientManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/appointments"
+  element={
+    <ProtectedRoute>
+      <Appointments />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/consultation"
+  element={
+    <ProtectedRoute>
+      <Consultation />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/reports"
+  element={
+    <ProtectedRoute>
+      <Reports />
+    </ProtectedRoute>
+  }
+/>
+
 
         {/* Default Route */}
         <Route

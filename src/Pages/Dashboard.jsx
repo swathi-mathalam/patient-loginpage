@@ -62,9 +62,14 @@ const Dashboard = () => {
               Add New Patient
             </button>
 
-            <button className="search-btn">
-              Search Patient
-            </button>
+            <button
+  className="search-btn"
+  onClick={() =>
+    navigate("/patient-management")
+  }
+>
+  Search Patient
+</button>
           </div>
         </div>
       </div>

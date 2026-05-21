@@ -1,32 +1,45 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import {
+  put,
+  takeLatest,
+} from "redux-saga/effects";
+
 import {
   CREATE_PATIENT_REQUEST,
   CREATE_PATIENT_SUCCESS,
   CREATE_PATIENT_FAILURE,
 } from "../actions/patientActions";
 
-import { createPatientApi } from "../../services/patientApi";
-
-function* createPatientSaga(action) {
+function* createPatientSaga(
+  action
+) {
   try {
-    const response = yield call(
-      createPatientApi,
+    console.log(
+      "Saga Running:",
       action.payload
     );
 
     yield put({
-      type: CREATE_PATIENT_SUCCESS,
-      payload: response,
+      type:
+        CREATE_PATIENT_SUCCESS,
+      payload:
+        action.payload,
     });
 
-    alert("Patient created successfully!");
+    console.log(
+      "Patient Added Successfully"
+    );
   } catch (error) {
-    yield put({
-      type: CREATE_PATIENT_FAILURE,
-      payload: error.message,
-    });
+    console.log(
+      "Saga Error:",
+      error
+    );
 
-    alert("Something went wrong!");
+    yield put({
+      type:
+        CREATE_PATIENT_FAILURE,
+      payload:
+        error.message,
+    });
   }
 }
 
