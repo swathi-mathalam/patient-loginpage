@@ -1,38 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
-import Login from "./Pages/Login";
-import Dashboard from "./Pages/Dashboard";
-import PatientRegistration from "./pages/PatientRegistration";
+import React from "react";
 import {
   BrowserRouter,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
 
-
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import PatientManagement from "./pages/patientRegistration";
+import Sidebar from "./components/Sidebar";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-return (
+  return (
     <BrowserRouter>
       <Routes>
+        {/* Login */}
         <Route
-          path="/"
+          path="/login"
           element={<Login />}
         />
 
+        {/* Dashboard */}
         <Route
           path="/dashboard"
-          element={<Dashboard />}
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
         />
+
+        {/* Patients */}
         <Route
-  path="/patients"
-  element={<PatientRegistration />}
-/>
+          path="/patients"
+          element={
+            <ProtectedRoute>
+              <PatientManagement />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Default Route */}
+        <Route
+          path="/"
+          element={
+            <Navigate
+              to="/login"
+              replace
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
 }
+
 export default App;

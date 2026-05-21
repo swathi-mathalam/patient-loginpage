@@ -31,11 +31,19 @@ const Login = () => {
     isAuthenticated,
   } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/dashboard");
-    }
-  }, [isAuthenticated, navigate]);
+ useEffect(() => {
+  if (isAuthenticated) {
+    localStorage.setItem(
+      "isAuthenticated",
+      "true"
+    );
+
+    navigate("/dashboard");
+  }
+}, [
+  isAuthenticated,
+  navigate,
+]);
 
   const initialValues = {
     email: "",
