@@ -32,12 +32,15 @@ const validationSchema = Yup.object({
   firstName: Yup.string().required(
     "First Name is required"
   ),
+
   lastName: Yup.string().required(
     "Last Name is required"
   ),
+
   dob: Yup.string().required(
     "Date of Birth is required"
   ),
+
   mobile: Yup.string()
     .matches(
       /^[0-9]{10}$/,
@@ -46,9 +49,42 @@ const validationSchema = Yup.object({
     .required(
       "Mobile number is required"
     ),
-  email: Yup.string().email(
-    "Invalid email"
-  ),
+
+  email: Yup.string()
+    .email("Invalid email")
+    .required(
+      "Email is required"
+    ),
+
+  emergencyName:
+    Yup.string().required(
+      "Emergency Contact Name is required"
+    ),
+
+  relationship:
+    Yup.string().required(
+      "Relationship is required"
+    ),
+
+  emergencyContact:
+    Yup.string()
+      .matches(
+        /^[0-9]{10}$/,
+        "Enter valid contact number"
+      )
+      .required(
+        "Contact number is required"
+      ),
+
+  insuranceProvider:
+    Yup.string().required(
+      "Insurance Provider is required"
+    ),
+
+  insuranceId:
+    Yup.string().required(
+      "Insurance ID is required"
+    ),
 });
 
 const PatientRegistration = () => {
@@ -110,46 +146,33 @@ const PatientRegistration = () => {
   };
 
   // FIXED SUBMIT FUNCTION
-  const handleSubmit = (
+ const handleSubmit = (
   values,
   { resetForm }
 ) => {
-  console.log(
-    "Submit clicked"
-  );
+  console.log("Submit clicked");
 
   const newPatientId =
     generatePatientId();
 
   const patientData = {
-    patientId:
-      newPatientId,
+    patientId: newPatientId,
     ...values,
   };
 
-  console.log(
-    "Patient Data:",
-    patientData
-  );
+  console.log(patientData);
 
   dispatch(
-    createPatient(
-      patientData
-    )
+    createPatient(patientData)
   );
 
-  setPatientId(
-    newPatientId
-  );
-
+  setPatientId(newPatientId);
   setOpenPopup(true);
 
   resetForm();
 
   setTimeout(() => {
-    navigate(
-      "/patient-management"
-    );
+    navigate("/patient-management");
   }, 3000);
 };
 
@@ -181,22 +204,19 @@ const PatientRegistration = () => {
           </Stepper>
 
           <Formik
-  initialValues={
-    initialValues
-  }
-  onSubmit={
-    handleSubmit
-  }
+  initialValues={initialValues}
+  onSubmit={handleSubmit}
 >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              resetForm,
-            }) => (
-              <Form>
+  {({
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    resetForm,
+    submitForm,
+  }) => (
+    <Form>
                 {/* STEP 1 */}
                 {activeStep ===
                   0 && (
@@ -431,34 +451,46 @@ const PatientRegistration = () => {
                 )}
 
                 {/* STEP 4 */}
-                {activeStep ===
-                  3 && (
-                  <Box className="form-grid">
-                    <TextField
-                      label="Insurance Provider"
-                      name="insuranceProvider"
-                      fullWidth
-                      value={
-                        values.insuranceProvider
-                      }
-                      onChange={
-                        handleChange
-                      }
-                    />
+                {/* STEP 4 */}
+{activeStep === 3 && (
+  <Box className="form-grid">
+    <TextField
+      required
+      label="Insurance Provider"
+      name="insuranceProvider"
+      fullWidth
+      value={values.insuranceProvider}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      error={
+        touched.insuranceProvider &&
+        Boolean(errors.insuranceProvider)
+      }
+      helperText={
+        touched.insuranceProvider &&
+        errors.insuranceProvider
+      }
+    />
 
-                    <TextField
-                      label="Insurance ID"
-                      name="insuranceId"
-                      fullWidth
-                      value={
-                        values.insuranceId
-                      }
-                      onChange={
-                        handleChange
-                      }
-                    />
-                  </Box>
-                )}
+    <TextField
+      required
+      label="Insurance ID"
+      name="insuranceId"
+      fullWidth
+      value={values.insuranceId}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      error={
+        touched.insuranceId &&
+        Boolean(errors.insuranceId)
+      }
+      helperText={
+        touched.insuranceId &&
+        errors.insuranceId
+      }
+    />
+  </Box>
+)}
 
                 {/* BUTTONS */}
                 <div className="btn-group">
@@ -487,11 +519,11 @@ const PatientRegistration = () => {
                     </Button>
                   ) : (
                     <Button
-                      type="submit"
-                      variant="contained"
-                    >
-                      Save Patient
-                    </Button>
+  variant="contained"
+  onClick={submitForm}
+>
+  Save Patient
+</Button>
                   )}
 
                   <Button

@@ -1,233 +1,331 @@
-import React, { useState } from "react";
-import Sidebar from "../components/Sidebar";
+import React, {
+  useState,
+} from "react";
+
 import {
-  Box,
+  Paper,
+  Typography,
+  TextField,
   Button,
   MenuItem,
-  Paper,
-  TextField,
-  Typography,
-  Snackbar,
-  Alert,
 } from "@mui/material";
+
+import Sidebar from "../components/Sidebar";
 import "../styles/appointments.scss";
 
-const Appointments = () => {
-  const [openPopup, setOpenPopup] =
-    useState(false);
 
-  const [appointmentId, setAppointmentId] =
-    useState("");
+const Appointments =
+  () => {
+    const [
+      appointments,
+      setAppointments,
+    ] = useState([]);
 
-  const [formData, setFormData] =
-    useState({
-      patientName: "",
+    const [
+      formData,
+      setFormData,
+    ] = useState({
       patientId: "",
+      patientName: "",
       doctorName: "",
-      appointmentDate: "",
-      appointmentTime: "",
-      consultationType: "",
-      status: "",
-      notes: "",
+      department: "",
+      date: "",
+      time: "",
+      reason: "",
+      status: "Pending",
     });
 
-  const generateAppointmentId =
-    () => {
-      return `APT${Math.floor(
-        100000 +
-          Math.random() * 900000
-      )}`;
+    const handleChange = (
+      e
+    ) => {
+      setFormData({
+        ...formData,
+        [e.target.name]:
+          e.target.value,
+      });
     };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]:
-        e.target.value,
-    });
-  };
+    const handleSubmit =
+      () => {
+        const newAppointment =
+          {
+            appointmentId: `APT${Math.floor(
+              1000 +
+                Math.random() *
+                  9000
+            )}`,
+            ...formData,
+          };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+        setAppointments([
+          ...appointments,
+          newAppointment,
+        ]);
 
-    const newAppointmentId =
-      generateAppointmentId();
+        setFormData({
+          patientId: "",
+          patientName: "",
+          doctorName: "",
+          department: "",
+          date: "",
+          time: "",
+          reason: "",
+          status:
+            "Pending",
+        });
+      };
 
-    setAppointmentId(
-      newAppointmentId
-    );
+    return (
+      <div className="appointments-page">
+        <Sidebar />
 
-    console.log({
-      appointmentId:
-        newAppointmentId,
-      ...formData,
-    });
+        <div className="appointments-container">
 
-    setOpenPopup(true);
+          {/* Header */}
+          <div className="page-header">
+            <Typography variant="h4">
+              Appointments
+            </Typography>
 
-    setFormData({
-      patientName: "",
-      patientId: "",
-      doctorName: "",
-      appointmentDate: "",
-      appointmentTime: "",
-      consultationType: "",
-      status: "",
-      notes: "",
-    });
-  };
-
-  return (
-    <div className="appointment-page">
-      <Sidebar />
-
-      <div className="appointment-container">
-        <Paper className="appointment-card">
-          <Typography
-            variant="h4"
-            mb={3}
-          >
-            Appointment Booking
-          </Typography>
-
-          <Box
-            component="form"
-            className="form-grid"
-            onSubmit={handleSubmit}
-          >
-            <TextField
-              label="Patient Name"
-              name="patientName"
-              fullWidth
-              value={
-                formData.patientName
+            <div className="appointment-count">
+              Total:
+              {
+                appointments.length
               }
-              onChange={handleChange}
-            />
+            </div>
+          </div>
 
-            <TextField
-              label="Patient ID"
-              name="patientId"
-              fullWidth
-              value={
-                formData.patientId
-              }
-              onChange={handleChange}
-            />
-
-            <TextField
-              label="Doctor Name"
-              name="doctorName"
-              fullWidth
-              value={
-                formData.doctorName
-              }
-              onChange={handleChange}
-            />
-
-            <TextField
-              type="date"
-              name="appointmentDate"
-              fullWidth
-              value={
-                formData.appointmentDate
-              }
-              onChange={handleChange}
-            />
-
-            <TextField
-              type="time"
-              name="appointmentTime"
-              fullWidth
-              value={
-                formData.appointmentTime
-              }
-              onChange={handleChange}
-            />
-
-            <TextField
-              select
-              label="Consultation Type"
-              name="consultationType"
-              fullWidth
-              value={
-                formData.consultationType
-              }
-              onChange={handleChange}
+          {/* Form */}
+          <Paper className="appointment-form">
+            <Typography
+              variant="h6"
+              mb={2}
             >
-              <MenuItem value="Online">
-                Online
-              </MenuItem>
-              <MenuItem value="Offline">
-                Offline
-              </MenuItem>
-            </TextField>
+              Book Appointment
+            </Typography>
 
-            <TextField
-              select
-              label="Status"
-              name="status"
-              fullWidth
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <MenuItem value="Scheduled">
-                Scheduled
-              </MenuItem>
-              <MenuItem value="Pending">
-                Pending
-              </MenuItem>
-              <MenuItem value="Completed">
-                Completed
-              </MenuItem>
-            </TextField>
+            <div className="form-grid">
 
-            <TextField
-              label="Notes"
-              name="notes"
-              multiline
-              rows={3}
-              fullWidth
-              value={formData.notes}
-              onChange={handleChange}
-            />
-          </Box>
+              <TextField
+                label="Patient ID"
+                name="patientId"
+                value={
+                  formData.patientId
+                }
+                onChange={
+                  handleChange
+                }
+                fullWidth
+              />
 
-          <div className="btn-group">
+              <TextField
+                label="Patient Name"
+                name="patientName"
+                value={
+                  formData.patientName
+                }
+                onChange={
+                  handleChange
+                }
+                fullWidth
+              />
+
+              <TextField
+                label="Doctor Name"
+                name="doctorName"
+                value={
+                  formData.doctorName
+                }
+                onChange={
+                  handleChange
+                }
+                fullWidth
+              />
+
+              <TextField
+                label="Department"
+                name="department"
+                value={
+                  formData.department
+                }
+                onChange={
+                  handleChange
+                }
+                fullWidth
+              />
+
+              <TextField
+                type="date"
+                name="date"
+                value={
+                  formData.date
+                }
+                onChange={
+                  handleChange
+                }
+                fullWidth
+              />
+
+              <TextField
+                type="time"
+                name="time"
+                value={
+                  formData.time
+                }
+                onChange={
+                  handleChange
+                }
+                fullWidth
+              />
+
+              <TextField
+                label="Reason"
+                name="reason"
+                value={
+                  formData.reason
+                }
+                onChange={
+                  handleChange
+                }
+                fullWidth
+              />
+
+              <TextField
+                select
+                label="Status"
+                name="status"
+                value={
+                  formData.status
+                }
+                onChange={
+                  handleChange
+                }
+                fullWidth
+              >
+                <MenuItem value="Pending">
+                  Pending
+                </MenuItem>
+
+                <MenuItem value="Confirmed">
+                  Confirmed
+                </MenuItem>
+
+                <MenuItem value="Completed">
+                  Completed
+                </MenuItem>
+              </TextField>
+            </div>
+
             <Button
               variant="contained"
-              onClick={handleSubmit}
+              onClick={
+                handleSubmit
+              }
+              className="save-btn"
             >
               Save Appointment
             </Button>
-          </div>
-        </Paper>
+          </Paper>
 
-        <Snackbar
-          open={openPopup}
-          autoHideDuration={10000}
-          onClose={() =>
-            setOpenPopup(false)
-          }
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-        >
-          <Alert
-            severity="success"
-            variant="filled"
-          >
-            Appointment Booked
-            Successfully!
-            <br />
-            Appointment ID:
-            {appointmentId}
-          </Alert>
-        </Snackbar>
+          {/* Table */}
+          <Paper className="table-container">
+            <table className="appointment-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>
+                    Patient
+                  </th>
+                  <th>
+                    Doctor
+                  </th>
+                  <th>
+                    Department
+                  </th>
+                  <th>
+                    Date
+                  </th>
+                  <th>
+                    Time
+                  </th>
+                  <th>
+                    Status
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {appointments
+                  .length >
+                0 ? (
+                  appointments.map(
+                    (
+                      item
+                    ) => (
+                      <tr
+                        key={
+                          item.appointmentId
+                        }
+                      >
+                        <td>
+                          {
+                            item.appointmentId
+                          }
+                        </td>
+
+                        <td>
+                          {
+                            item.patientName
+                          }
+                        </td>
+
+                        <td>
+                          {
+                            item.doctorName
+                          }
+                        </td>
+
+                        <td>
+                          {
+                            item.department
+                          }
+                        </td>
+
+                        <td>
+                          {
+                            item.date
+                          }
+                        </td>
+
+                        <td>
+                          {
+                            item.time
+                          }
+                        </td>
+
+                        <td>
+                          {
+                            item.status
+                          }
+                        </td>
+                      </tr>
+                    )
+                  )
+                ) : (
+                  <tr>
+                    <td colSpan="7">
+                      No
+                      Appointments
+                      Found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </Paper>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default Appointments;

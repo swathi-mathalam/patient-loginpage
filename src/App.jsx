@@ -15,6 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Appointments from "./pages/Appointments";
 import Consultation from "./pages/Consultation";
 import Reports from "./pages/Reports";
+import AppointmentForm from "./components/AppointmentForm";
 
 function App() {
   return (
