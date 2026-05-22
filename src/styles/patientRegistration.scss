@@ -1,156 +1,70 @@
 .patient-page {
-  display: flex;
-  min-height: 100vh;
-  background: #f4f7fc;
+  padding: 20px;
 }
 
-.patient-container {
-  flex: 1;
-  padding: 30px;
-}
-
-/* Card */
 .patient-card {
-  padding: 35px !important;
-  border-radius: 20px !important;
-  background: #ffffff !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+  border-radius: 24px !important;
+  padding: 32px;
+  background: #fff;
+  box-shadow: 0 8px 30px
+    rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Heading */
-.MuiTypography-h4 {
+.header-section {
+  margin-bottom: 28px;
+}
+
+.page-title {
   font-weight: 700 !important;
-  color: #1e293b;
+  color: #1f2937;
 }
 
-/* Stepper */
-.MuiStepper-root {
-  margin-top: 20px;
-  margin-bottom: 30px;
+.page-subtitle {
+  color: #6b7280;
+  margin-top: 6px !important;
 }
 
-.MuiStepLabel-label {
-  font-weight: 600 !important;
-  color: #475569 !important;
+.custom-stepper {
+  margin-bottom: 35px;
 }
 
-.MuiStepLabel-label.Mui-active {
-  color: #2563eb !important;
-}
-
-.MuiStepLabel-label.Mui-completed {
-  color: #16a34a !important;
-}
-
-/* Form Grid */
 .form-grid {
-  margin-top: 25px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns:
+    repeat(2, 1fr);
   gap: 20px;
 }
 
-/* Text Fields */
+.full-width {
+  grid-column: span 2;
+}
+
+.button-group {
+  margin-top: 35px;
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
 .MuiTextField-root {
   background: #fff;
 }
 
 .MuiOutlinedInput-root {
   border-radius: 12px !important;
-  background: #fff;
-
-  &:hover fieldset {
-    border-color: #2563eb !important;
-  }
-
-  &.Mui-focused fieldset {
-    border-color: #2563eb !important;
-  }
 }
 
-/* Buttons */
-.btn-group {
-  display: flex;
-  gap: 15px;
-  margin-top: 35px;
-  flex-wrap: wrap;
-}
-
-/* Common Button Style */
-.btn-group button {
-  min-width: 140px;
-  height: 48px;
-  border-radius: 12px !important;
-  font-size: 15px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-/* Next + Save Button */
-.MuiButton-contained {
-  background: #2563eb !important;
-  color: white !important;
-
-  &:hover {
-    background: #1d4ed8 !important;
-    transform: translateY(-2px);
-    transition: 0.3s;
-  }
-}
-
-/* Reset Button */
-.MuiButton-outlinedSecondary {
-  border: 1px solid #9333ea !important;
-  color: #9333ea !important;
-
-  &:hover {
-    background: #f3e8ff !important;
-  }
-}
-
-/* Cancel Button RED */
-.MuiButton-containedError {
-  background: #dc2626 !important;
-  color: white !important;
-
-  &:hover {
-    background: #b91c1c !important;
-  }
-}
-
-/* Snackbar popup */
-.MuiSnackbar-root {
-  top: 80px !important;
-}
-
-/* Responsive */
-@media screen and (max-width: 992px) {
-  .patient-container {
-    padding: 20px;
-  }
-
+@media (max-width: 768px) {
   .form-grid {
     grid-template-columns: 1fr;
   }
 
-  .btn-group {
-    flex-direction: column;
+  .full-width {
+    grid-column: span 1;
   }
 
-  .btn-group button {
-    width: 100%;
+  .button-group {
+    justify-content: center;
   }
-}
-
-@media screen and (max-width: 768px) {
-  .patient-card {
-    padding: 20px !important;
-  }
-
-  .MuiTypography-h4 {
-    font-size: 28px !important;
-  }
-
-  
-
 }

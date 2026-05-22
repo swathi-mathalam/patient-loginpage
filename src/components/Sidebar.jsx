@@ -1,6 +1,17 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Users,
+  Calendar,
+  CreditCard,
+  FileText,
+  LogOut,
+  HeartPulse,
+} from "lucide-react";
+
 import "../styles/sidebar.scss";
+
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -10,40 +21,60 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar">
-      <h2 className="logo">
-        MediCare
-      </h2>
+    <aside className="sidebar">
+      {/* Logo */}
+      <div>
+        <div className="sidebar-logo">
+          <div className="logo-box">
+            <HeartPulse size={28} />
+          </div>
 
-      <nav>
-        <Link to="/dashboard">
-          Dashboard
-        </Link>
+          <div>
+            <h2>AI Healthcare</h2>
+            <p>Admin Panel</p>
+          </div>
+        </div>
 
-        <Link to="/patients">
-          Patient Management
-        </Link>
+        {/* Menu */}
+        <nav className="sidebar-menu">
 
-        <Link to="/appointments">
-          Appointments
-        </Link>
+          <NavLink to="/dashboard">
+            <LayoutDashboard size={18} />
+            Dashboard
+          </NavLink>
 
-        <Link to="/consultation">
-          Consultation
-        </Link>
+          <NavLink to="/patients">
+            <Users size={18} />
+            Patients
+          </NavLink>
 
-        <Link to="/reports">
-          Reports
-        </Link>
+          <NavLink to="/appointments">
+            <Calendar size={18} />
+            Appointments
+          </NavLink>
 
-        <button
-          className="logout-btn"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
-      </nav>
-    </div>
+          <NavLink to="/consultation">
+            <CreditCard size={18} />
+            Consultation
+          </NavLink>
+
+          <NavLink to="/reports">
+            <FileText size={18} />
+            Reports
+          </NavLink>
+
+        </nav>
+      </div>
+
+      {/* Logout */}
+      <button
+        className="logout-btn"
+        onClick={handleLogout}
+      >
+        <LogOut size={18} />
+        Logout
+      </button>
+    </aside>
   );
 };
 

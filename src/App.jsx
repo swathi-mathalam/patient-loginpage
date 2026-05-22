@@ -12,6 +12,7 @@ import PatientRegistration from "./pages/patientRegistration";
 import PatientManagement from "./pages/PatientManagement";
 import Sidebar from "./components/Sidebar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Header from "./components/Header";
 import Appointments from "./pages/Appointments";
 import Consultation from "./pages/Consultation";
 import Reports from "./pages/Reports";

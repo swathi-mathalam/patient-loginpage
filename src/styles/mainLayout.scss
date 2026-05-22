@@ -1,0 +1,55 @@
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f7fc;
+  overflow-x: hidden;
+}
+
+/* Sidebar Fixed */
+.sidebar {
+  width: 270px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: linear-gradient(
+    180deg,
+    #0a1633,
+    #1b2b66
+  );
+  color: white;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* Right Section */
+.main-section {
+  width: calc(100% - 270px);
+  margin-left: 270px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  height: 90px;
+  background: #fff;
+  padding: 20px 30px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Page Content */
+.content-wrapper {
+  flex: 1;
+  padding: 30px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}

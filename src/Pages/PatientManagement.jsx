@@ -1,185 +1,151 @@
-import React, {
-  useState,
-} from "react";
-
-import {
-  useSelector,
-} from "react-redux";
-
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   Paper,
-  Typography,
   TextField,
+  InputAdornment,
 } from "@mui/material";
+import { Search, Users } from "lucide-react";
 
-import Sidebar from "../components/Sidebar";
+import MainLayout from "../components/MainLayout";
 import "../styles/patientManagement.scss";
 
-const PatientManagement =
-  () => {
-    const [search,
-      setSearch] =
-      useState("");
+const PatientManagement = () => {
+  const [search, setSearch] =
+    useState("");
 
-    const patients =
-      useSelector(
-        (state) =>
-          state.patient
-            .patients
-      );
+  const patients = useSelector(
+    (state) => state.patient.patients
+  );
 
-    const filteredPatients =
-      patients.filter(
-        (patient) =>
-          patient.firstName
-            ?.toLowerCase()
-            .includes(
-              search.toLowerCase()
-            ) ||
-          patient.lastName
-            ?.toLowerCase()
-            .includes(
-              search.toLowerCase()
-            ) ||
-          patient.patientId
-            ?.toLowerCase()
-            .includes(
-              search.toLowerCase()
-            )
-      );
+  const filteredPatients =
+    patients.filter(
+      (patient) =>
+        patient.firstName
+          ?.toLowerCase()
+          .includes(search.toLowerCase()) ||
+        patient.lastName
+          ?.toLowerCase()
+          .includes(search.toLowerCase()) ||
+        patient.patientId
+          ?.toLowerCase()
+          .includes(search.toLowerCase())
+    );
 
-    return (
-      <div className="patient-management-page">
-        <Sidebar />
+  return (
+    <MainLayout
+      title="Patient Management"
+      subtitle="Manage patient records"
+    >
+      {/* Top Section */}
+      <div className="patient-top-section">
 
-        <div className="patient-management-container">
-
-          {/* Header */}
-          <div className="page-header">
-            <div>
-              <Typography
-                variant="h4"
-                className="page-title"
-              >
-                Patient
-                Management
-              </Typography>
-
-              <Typography className="sub-title">
-                Manage all
-                registered
-                patients
-              </Typography>
-            </div>
-
-            <div className="patient-count-card">
-              <Typography variant="h6">
-                Total Patients
-              </Typography>
-
-              <h2>
-                {
-                  patients.length
-                }
-              </h2>
-            </div>
+        {/* Patient Count Card */}
+        <div className="patient-count-card">
+          <div>
+            <p>Total Patients</p>
+            <h2>{patients.length}</h2>
           </div>
 
-          {/* Search */}
-          <Paper className="search-box">
-            <TextField
-              fullWidth
-              placeholder="Search by Patient ID or Name..."
-              value={search}
-              onChange={(e) =>
-                setSearch(
-                  e.target
-                    .value
-                )
-              }
-            />
-          </Paper>
+          <div className="patient-icon">
+            <Users size={28} />
+          </div>
+        </div>
 
-          {/* Table */}
-          <Paper className="table-container">
-            <table className="patient-table">
-              <thead>
-                <tr>
-                  <th>
-                    Patient ID
-                  </th>
-                  <th>
-                    Full Name
-                  </th>
-                  <th>
-                    Gender
-                  </th>
-                  <th>
-                    Mobile
-                  </th>
-                </tr>
-              </thead>
+      </div>
 
-              <tbody>
-                {filteredPatients
-                  .length >
-                0 ? (
-                  filteredPatients.map(
-                    (
-                      patient
-                    ) => (
-                      <tr
-                        key={
-                          patient.patientId
+      {/* Search Box */}
+      <Paper className="search-container">
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="Search by Patient ID or Name..."
+          value={search}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search size={18} />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Paper>
+
+      {/* Patient Table */}
+      <Paper className="table-wrapper">
+        <div className="table-header">
+          <h3>Patient Records</h3>
+        </div>
+
+        <table className="patient-table">
+          <thead>
+            <tr>
+              <th>Patient ID</th>
+              <th>Full Name</th>
+              <th>Gender</th>
+              <th>Mobile</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredPatients.length >
+            0 ? (
+              filteredPatients.map(
+                (patient) => (
+                  <tr
+                    key={
+                      patient.patientId
+                    }
+                  >
+                    <td>
+                      {
+                        patient.patientId
+                      }
+                    </td>
+
+                    <td>
+                      {
+                        patient.firstName
+                      }{" "}
+                      {
+                        patient.lastName
+                      }
+                    </td>
+
+                    <td>
+                      <span className="gender-badge">
+                        {
+                          patient.gender
                         }
-                      >
-                        <td>
-                          {
-                            patient.patientId
-                          }
-                        </td>
+                      </span>
+                    </td>
 
-                        <td>
-                          {
-                            patient.firstName
-                          }{" "}
-                          {
-                            patient.lastName
-                          }
-                        </td>
-
-                        <td>
-                          {
-                            patient.gender
-                          }
-                        </td>
-
-                        <td>
-                          {
-                            patient.mobile
-                          }
-                        </td>
-                      </tr>
-                    )
-                  )
-                ) : (
-                  <tr>
-                    <td
-                      colSpan="4"
-                      className="no-data"
-                    >
-                      No
-                      Patients
-                      Found
+                    <td>
+                      {
+                        patient.mobile
+                      }
                     </td>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </Paper>
-        </div>
-      </div>
-    );
-  };
+                )
+              )
+            ) : (
+              <tr>
+                <td
+                  colSpan="4"
+                  className="no-data"
+                >
+                  No Patients Found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </Paper>
+    </MainLayout>
+  );
+};
 
 export default PatientManagement;

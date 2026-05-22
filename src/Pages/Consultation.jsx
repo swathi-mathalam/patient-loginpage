@@ -1,167 +1,399 @@
-import React, { useState } from "react";
-import Sidebar from "../components/Sidebar";
+import React, {
+  useState,
+} from "react";
+
+import {
+  Typography,
+  Paper,
+  TextField,
+  Button,
+  MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Snackbar,
+  Alert,
+  Chip,
+  Divider,
+} from "@mui/material";
+
+import MainLayout from "../components/MainLayout";
 import "../styles/consultation.scss";
 
 const Consultation = () => {
-  const [patientId, setPatientId] =
-    useState("");
+  const [
+    consultations,
+    setConsultations,
+  ] = useState([]);
 
-  const [consultationData, setConsultationData] =
+  const [openPopup, setOpenPopup] =
+    useState(false);
+
+  const [formData, setFormData] =
     useState({
+      patientId: "",
+      patientName: "",
       doctorName: "",
-      symptoms: "",
+      department: "",
       diagnosis: "",
       prescription: "",
-      consultationDate: "",
+      notes: "",
+      status: "In Progress",
     });
-
-  const patientData = {
-    id: "PAT123456",
-    name: "Swathi",
-    age: 24,
-    gender: "Female",
-  };
 
   const handleChange = (e) => {
-    setConsultationData({
-      ...consultationData,
-      [e.target.name]: e.target.value,
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
+    const newConsultation = {
+      consultationId: `CONS${Math.floor(
+        1000 +
+          Math.random() * 9000
+      )}`,
+      date:
+        new Date().toLocaleDateString(),
+      ...formData,
+    };
 
-    alert(
-      "Consultation Saved Successfully!"
-    );
+    setConsultations([
+      newConsultation,
+      ...consultations,
+    ]);
 
-    console.log({
-      patientId,
-      ...consultationData,
-    });
+    setOpenPopup(true);
 
-    setConsultationData({
+    setFormData({
+      patientId: "",
+      patientName: "",
       doctorName: "",
-      symptoms: "",
+      department: "",
       diagnosis: "",
       prescription: "",
-      consultationDate: "",
+      notes: "",
+      status: "In Progress",
     });
   };
 
   return (
-    <div className="consultation-page">
-      <Sidebar />
-
-      <div className="consultation-container">
+    <MainLayout
+      title="Consultation"
+      subtitle="Manage patient consultations"
+    >
+      <div className="consultation-page">
+        {/* Header */}
         <div className="consultation-header">
-          <h1>Consultation</h1>
-          <p>
-            Add patient consultation details
-          </p>
-        </div>
+          <div>
+            <Typography
+              variant="h4"
+              className="page-title"
+            >
+              Consultation
+            </Typography>
 
-        {/* Search Patient */}
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Search Patient ID / Name"
-            value={patientId}
-            onChange={(e) =>
-              setPatientId(e.target.value)
-            }
-          />
-
-          <button>Search</button>
-        </div>
-
-        {/* Patient Details */}
-        <div className="patient-card">
-          <h2>Patient Details</h2>
-
-          <div className="patient-info">
-            <p>
-              <strong>ID:</strong>{" "}
-              {patientData.id}
-            </p>
-
-            <p>
-              <strong>Name:</strong>{" "}
-              {patientData.name}
-            </p>
-
-            <p>
-              <strong>Age:</strong>{" "}
-              {patientData.age}
-            </p>
-
-            <p>
-              <strong>Gender:</strong>{" "}
-              {patientData.gender}
-            </p>
+            <Typography className="page-subtitle">
+              Manage patient
+              consultations and
+              treatment records
+            </Typography>
           </div>
+
+          <Paper className="stats-card">
+            <Typography variant="h6">
+              Total Consultations
+            </Typography>
+
+            <Typography className="stats-number">
+              {
+                consultations.length
+              }
+            </Typography>
+          </Paper>
         </div>
 
-        {/* Consultation Form */}
-        <form
-          className="consultation-form"
-          onSubmit={handleSubmit}
-        >
+        {/* Form */}
+        <Paper className="consultation-card">
+          <Typography
+            variant="h5"
+            className="card-title"
+          >
+            Patient Consultation
+          </Typography>
+
+          <Typography className="card-subtitle">
+            Add diagnosis and
+            treatment details
+          </Typography>
+
+          <Divider sx={{ mb: 4 }} />
+
           <div className="form-grid">
-            <input
-              type="text"
-              placeholder="Doctor Name"
+            <TextField
+              label="Patient ID"
+              name="patientId"
+              value={
+                formData.patientId
+              }
+              onChange={
+                handleChange
+              }
+              fullWidth
+            />
+
+            <TextField
+              label="Patient Name"
+              name="patientName"
+              value={
+                formData.patientName
+              }
+              onChange={
+                handleChange
+              }
+              fullWidth
+            />
+
+            <TextField
+              label="Doctor Name"
               name="doctorName"
               value={
-                consultationData.doctorName
+                formData.doctorName
               }
-              onChange={handleChange}
+              onChange={
+                handleChange
+              }
+              fullWidth
             />
 
-            <input
-              type="date"
-              name="consultationDate"
+            <TextField
+              label="Department"
+              name="department"
               value={
-                consultationData.consultationDate
+                formData.department
               }
-              onChange={handleChange}
+              onChange={
+                handleChange
+              }
+              fullWidth
             />
 
-            <textarea
-              placeholder="Symptoms"
-              name="symptoms"
-              value={
-                consultationData.symptoms
-              }
-              onChange={handleChange}
-            />
-
-            <textarea
-              placeholder="Diagnosis"
+            <TextField
+              multiline
+              rows={3}
+              label="Diagnosis"
               name="diagnosis"
               value={
-                consultationData.diagnosis
+                formData.diagnosis
               }
-              onChange={handleChange}
+              onChange={
+                handleChange
+              }
+              fullWidth
             />
 
-            <textarea
-              placeholder="Prescription"
+            <TextField
+              multiline
+              rows={3}
+              label="Prescription"
               name="prescription"
               value={
-                consultationData.prescription
+                formData.prescription
               }
-              onChange={handleChange}
+              onChange={
+                handleChange
+              }
+              fullWidth
             />
+
+            <TextField
+              className="full-width"
+              multiline
+              rows={4}
+              label="Doctor Notes"
+              name="notes"
+              value={
+                formData.notes
+              }
+              onChange={
+                handleChange
+              }
+              fullWidth
+            />
+
+            <TextField
+              select
+              label="Status"
+              name="status"
+              value={
+                formData.status
+              }
+              onChange={
+                handleChange
+              }
+              fullWidth
+            >
+              <MenuItem value="In Progress">
+                In Progress
+              </MenuItem>
+
+              <MenuItem value="Completed">
+                Completed
+              </MenuItem>
+
+              <MenuItem value="Follow Up">
+                Follow Up
+              </MenuItem>
+            </TextField>
           </div>
 
-          <button type="submit">
+          <Button
+            variant="contained"
+            className="save-btn"
+            onClick={
+              handleSubmit
+            }
+          >
             Save Consultation
-          </button>
-        </form>
+          </Button>
+        </Paper>
+
+        {/* Table */}
+        <Paper className="table-card">
+          <Typography
+            variant="h5"
+            mb={3}
+          >
+            Consultation History
+          </Typography>
+
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    ID
+                  </TableCell>
+                  <TableCell>
+                    Patient
+                  </TableCell>
+                  <TableCell>
+                    Doctor
+                  </TableCell>
+                  <TableCell>
+                    Department
+                  </TableCell>
+                  <TableCell>
+                    Date
+                  </TableCell>
+                  <TableCell>
+                    Status
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {consultations.length >
+                0 ? (
+                  consultations.map(
+                    (item) => (
+                      <TableRow
+                        key={
+                          item.consultationId
+                        }
+                      >
+                        <TableCell>
+                          {
+                            item.consultationId
+                          }
+                        </TableCell>
+
+                        <TableCell>
+                          {
+                            item.patientName
+                          }
+                        </TableCell>
+
+                        <TableCell>
+                          {
+                            item.doctorName
+                          }
+                        </TableCell>
+
+                        <TableCell>
+                          {
+                            item.department
+                          }
+                        </TableCell>
+
+                        <TableCell>
+                          {
+                            item.date
+                          }
+                        </TableCell>
+
+                        <TableCell>
+                          <Chip
+                            label={
+                              item.status
+                            }
+                            color={
+                              item.status ===
+                              "Completed"
+                                ? "success"
+                                : item.status ===
+                                  "Follow Up"
+                                ? "warning"
+                                : "info"
+                            }
+                          />
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={6}
+                      align="center"
+                    >
+                      No Consultation
+                      Records Found
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+
+        {/* Snackbar */}
+        <Snackbar
+          open={openPopup}
+          autoHideDuration={3000}
+          onClose={() =>
+            setOpenPopup(false)
+          }
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <Alert
+            severity="success"
+            variant="filled"
+          >
+            Consultation Saved
+            Successfully!
+          </Alert>
+        </Snackbar>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 

@@ -1,94 +1,106 @@
 .consultation-page {
+  padding: 24px;
+}
+
+.consultation-header {
   display: flex;
-  min-height: 100vh;
-  background: #f4f7fc;
-}
-
-.consultation-container {
-  flex: 1;
-  padding: 30px;
-}
-
-.consultation-header h1 {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.consultation-header p {
-  color: #64748b;
-}
-
-.search-box {
-  display: flex;
-  gap: 15px;
-  margin: 25px 0;
-
-  input {
-    flex: 1;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    outline: none;
-  }
-
-  button {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 14px 25px;
-    border-radius: 12px;
-    cursor: pointer;
-  }
-}
-
-.patient-card {
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 25px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  gap: 20px;
 }
 
-.patient-info {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+.page-title {
+  font-weight: 700 !important;
+  color: #1e293b;
 }
 
-.consultation-form {
-  background: white;
+.page-subtitle {
+  color: #64748b;
+  margin-top: 6px;
+}
+
+.stats-card {
+  min-width: 240px;
+  padding: 20px;
+  border-radius: 22px !important;
+  text-align: center;
+  box-shadow: 0 8px 24px
+    rgba(0, 0, 0, 0.08) !important;
+}
+
+.stats-number {
+  font-size: 34px;
+  font-weight: 700;
+  color: #1976d2;
+}
+
+.consultation-card,
+.table-card {
   padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 24px !important;
+  box-shadow: 0 8px 30px
+    rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 25px;
+}
+
+.card-title {
+  font-weight: 700 !important;
+}
+
+.card-subtitle {
+  color: #64748b;
+  margin-bottom: 16px;
 }
 
 .form-grid {
   display: grid;
+  grid-template-columns:
+    repeat(2, 1fr);
   gap: 20px;
-
-  input,
-  textarea {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    outline: none;
-    font-size: 15px;
-  }
-
-  textarea {
-    min-height: 120px;
-    resize: none;
-  }
 }
 
-.consultation-form button {
-  margin-top: 20px;
-  background: #2563eb;
-  color: white;
-  border: none;
-  padding: 14px 25px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 16px;
+.full-width {
+  grid-column: span 2;
+}
+
+.save-btn {
+  margin-top: 30px !important;
+  height: 50px;
+  min-width: 220px;
+  border-radius: 14px !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+.MuiOutlinedInput-root {
+  border-radius: 14px !important;
+}
+
+.MuiTableHead-root {
+  background: #f8fafc;
+}
+
+.MuiTableCell-head {
+  font-weight: 700 !important;
+}
+
+@media (max-width: 768px) {
+  .consultation-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: span 1;
+  }
+
+  .stats-card {
+    width: 100%;
+  }
 }
