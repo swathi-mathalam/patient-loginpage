@@ -232,38 +232,38 @@ const PatientRegistration = () => {
                 {activeStep === 0 && (
                   <Box className="form-grid">
                     <TextField
-                      label="First Name"
-                      name="firstName"
-                      value={
-                        values.firstName
-                      }
-                      onChange={
-                        handleChange
-                      }
-                      error={
-                        touched.firstName &&
-                        Boolean(
-                          errors.firstName
-                        )
-                      }
-                      helperText={
-                        touched.firstName &&
-                        errors.firstName
-                      }
-                      fullWidth
-                    />
-
+  label="First Name"
+  name="firstName"
+  required
+  value={values.firstName}
+  onChange={handleChange}
+  error={
+    touched.firstName &&
+    Boolean(errors.firstName)
+  }
+  helperText={
+    touched.firstName &&
+    errors.firstName
+  }
+  fullWidth
+/>
                     <TextField
-                      label="Last Name"
-                      name="lastName"
-                      value={
-                        values.lastName
-                      }
-                      onChange={
-                        handleChange
-                      }
-                      fullWidth
-                    />
+  label="Last Name"
+  name="lastName"
+  required
+  value={values.lastName}
+  onChange={handleChange}
+  error={
+    touched.lastName &&
+    Boolean(errors.lastName)
+  }
+  helperText={
+    touched.lastName &&
+    errors.lastName
+  }
+  fullWidth
+/>
+
 
                     <TextField
                       select
@@ -319,17 +319,22 @@ const PatientRegistration = () => {
                     />
 
                     <TextField
-                      label="Email"
-                      name="email"
-                      value={
-                        values.email
-                      }
-                      onChange={
-                        handleChange
-                      }
-                      className="full-width"
-                      fullWidth
-                    />
+  label="Email"
+  name="email"
+  required
+  value={values.email}
+  onChange={handleChange}
+  error={
+    touched.email &&
+    Boolean(errors.email)
+  }
+  helperText={
+    touched.email &&
+    errors.email
+  }
+  className="full-width"
+  fullWidth
+/>
                   </Box>
                 )}
 
@@ -337,28 +342,22 @@ const PatientRegistration = () => {
                 {activeStep === 1 && (
                   <Box className="form-grid">
                     <TextField
-                      label="Address Line 1"
-                      name="address1"
-                      value={
-                        values.address1
-                      }
-                      onChange={
-                        handleChange
-                      }
-                      fullWidth
-                    />
+  label="Address Line 1"
+  name="address1"
+  required
+  value={values.address1}
+  onChange={handleChange}
+  fullWidth
+/>
 
-                    <TextField
-                      label="Address Line 2"
-                      name="address2"
-                      value={
-                        values.address2
-                      }
-                      onChange={
-                        handleChange
-                      }
-                      fullWidth
-                    />
+
+                   <TextField
+  label="Address Line 2"
+  name="address2"
+  value={values.address2}
+  onChange={handleChange}
+  fullWidth
+/>
 
                     <TextField
                       label="City"
@@ -414,16 +413,21 @@ const PatientRegistration = () => {
                 {activeStep === 2 && (
                   <Box className="form-grid">
                     <TextField
-                      label="Emergency Contact Name"
-                      name="emergencyName"
-                      value={
-                        values.emergencyName
-                      }
-                      onChange={
-                        handleChange
-                      }
-                      fullWidth
-                    />
+  label="Emergency Contact Name"
+  name="emergencyName"
+  required
+  value={values.emergencyName}
+  onChange={handleChange}
+  error={
+    touched.emergencyName &&
+    Boolean(errors.emergencyName)
+  }
+  helperText={
+    touched.emergencyName &&
+    errors.emergencyName
+  }
+  fullWidth
+/>
 
                     <TextField
                       label="Relationship"
