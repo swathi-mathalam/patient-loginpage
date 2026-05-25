@@ -20,9 +20,7 @@ import { useDispatch } from "react-redux";
 
 import MainLayout from "../components/MainLayout";
 import "../styles/patientRegistration.scss";
-import { createPatient } from "../redux/actions/patientActions";
-
-const steps = [
+import { createPatient } from "../redux/patientregistrationpage/patientActions";const steps = [
   "Basic Information",
   "Address Information",
   "Emergency Contact",

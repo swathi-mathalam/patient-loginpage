@@ -1,21 +1,29 @@
+// redux/loginpage/authActions.js
+
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
-} from "../types/authTypes";
+} from "./authTypes";
 
-export const loginRequest = (userData) => ({
+export const loginRequest = (
+  userData
+) => ({
   type: LOGIN_REQUEST,
   payload: userData,
 });
 
-export const loginSuccess = (user) => ({
+export const loginSuccess = (
+  user
+) => ({
   type: LOGIN_SUCCESS,
   payload: user,
 });
 
-export const loginFailure = (error) => ({
+export const loginFailure = (
+  error
+) => ({
   type: LOGIN_FAILURE,
   payload: error,
 });

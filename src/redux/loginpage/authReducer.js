@@ -3,7 +3,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
-} from "../types/authTypes";
+} from "./authTypes";
 
 const initialState = {
   user: null,

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import healthcareLogo from "../assets/Logo.png";
 
-import { loginRequest } from "../redux/actions/authActions";
+import { loginRequest } from "../redux/loginpage/authActions";
 import "../styles/login.scss";
 import {
   BrowserRouter,

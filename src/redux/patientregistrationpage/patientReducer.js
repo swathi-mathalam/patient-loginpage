@@ -1,8 +1,10 @@
+// redux/patientregistrationpage/patientReducer.js
+
 import {
   CREATE_PATIENT_REQUEST,
   CREATE_PATIENT_SUCCESS,
   CREATE_PATIENT_FAILURE,
-} from "../actions/patientActions";
+} from "./patientTypes";
 
 const initialState = {
   patients: [],
@@ -14,24 +16,15 @@ const patientReducer = (
   state = initialState,
   action
 ) => {
-  console.log(
-    "Reducer Action:",
-    action.type
-  );
-
   switch (action.type) {
     case CREATE_PATIENT_REQUEST:
       return {
         ...state,
         loading: true,
+        error: null,
       };
 
     case CREATE_PATIENT_SUCCESS:
-      console.log(
-        "Patient Added:",
-        action.payload
-      );
-
       return {
         ...state,
         loading: false,

@@ -1,3 +1,5 @@
+// redux/loginpage/authSaga.js
+
 import {
   call,
   put,
@@ -8,12 +10,12 @@ import API from "../../services/api";
 
 import {
   LOGIN_REQUEST,
-} from "../types/authTypes";
+} from "./authTypes";
 
 import {
   loginSuccess,
   loginFailure,
-} from "../actions/authActions";
+} from "./authActions";
 
 function* loginSaga(action) {
   try {
@@ -22,18 +24,21 @@ function* loginSaga(action) {
       action.payload
     );
 
+    // API Call
     const response = yield call(
       API.get,
       "/users"
     );
 
-    const users = response.data;
+    const users =
+      response.data;
 
     console.log(
       "Users Data:",
       users
     );
 
+    // Match user email
     const matchedUser =
       users.find(
         (user) =>
@@ -42,6 +47,7 @@ function* loginSaga(action) {
       );
 
     if (matchedUser) {
+      // Save user
       localStorage.setItem(
         "user",
         JSON.stringify(
@@ -70,7 +76,10 @@ function* loginSaga(action) {
       );
     }
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Saga Error:",
+      error
+    );
 
     yield put(
       loginFailure(
