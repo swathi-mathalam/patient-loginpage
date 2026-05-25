@@ -57,21 +57,23 @@ const PatientManagement = () => {
       {/* Search Box */}
       <Paper className="search-container">
         <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Search by Patient ID or Name..."
-          value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search size={18} />
-              </InputAdornment>
-            ),
-          }}
-        />
+  fullWidth
+  variant="outlined"
+  placeholder="Search by Patient ID or Name..."
+  value={search}
+  onChange={(e) =>
+    setSearch(e.target.value)
+  }
+  slotProps={{
+    input: {
+      startAdornment: (
+        <InputAdornment position="start">
+          <Search size={18} />
+        </InputAdornment>
+      ),
+    },
+  }}
+/>
       </Paper>
 
       {/* Patient Table */}

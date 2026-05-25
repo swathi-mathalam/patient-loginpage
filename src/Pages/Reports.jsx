@@ -15,178 +15,248 @@ import {
   TableHead,
   TableRow,
   Chip,
+  IconButton,
+  Divider,
 } from "@mui/material";
 
+import EditIcon from "@mui/icons-material/Edit";
 import MainLayout from "../components/MainLayout";
 import "../styles/reports.scss";
 
-const Reports = () => {
-  const [reports] = useState([
-    {
-      id: "REP1001",
-      patient: "Swathi",
-      doctor: "Dr. John",
-      department:
-        "Cardiology",
-      date: "2026-05-21",
-      status:
-        "Completed",
-      amount: "2500",
-    },
-    {
-      id: "REP1002",
-      patient: "Rahul",
-      doctor: "Dr. Smith",
-      department:
-        "Neurology",
-      date: "2026-05-20",
-      status:
-        "Pending",
-      amount: "1800",
-    },
-  ]);
+const MedicalRecords = () => {
+  const [records, setRecords] =
+    useState([]);
+
+  const [formData, setFormData] =
+    useState({
+      patientName: "",
+      diagnosis: "",
+      symptoms: "",
+      doctorName: "",
+      medicines: "",
+      visitDate: "",
+      status: "",
+    });
+
+  const [editIndex,
+    setEditIndex] =
+    useState(null);
+
+  const handleChange = (
+    e
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.value,
+    });
+  };
+
+  const handleSave =
+    () => {
+      if (
+        editIndex !== null
+      ) {
+        const updated =
+          [...records];
+
+        updated[
+          editIndex
+        ] = formData;
+
+        setRecords(
+          updated
+        );
+
+        setEditIndex(
+          null
+        );
+      } else {
+        setRecords([
+          ...records,
+          formData,
+        ]);
+      }
+
+      setFormData({
+        patientName:
+          "",
+        diagnosis: "",
+        symptoms: "",
+        doctorName:
+          "",
+        medicines:
+          "",
+        visitDate: "",
+        status: "",
+      });
+    };
+
+  const handleEdit = (
+    index
+  ) => {
+    setFormData(
+      records[index]
+    );
+
+    setEditIndex(index);
+  };
 
   return (
     <MainLayout
-      title="Reports"
-      subtitle="Hospital reports & analytics"
+      title="Medical Records"
+     
     >
-      <div className="reports-page">
-        {/* Header */}
-        <div className="reports-header">
-          <div>
-            <Typography
-              variant="h4"
-              className="page-title"
-            >
-              Reports
-            </Typography>
+      <div className="medical-page">
 
-            <Typography className="page-subtitle">
-              Track hospital
-              performance and
-              analytics
-            </Typography>
+        {/* Form Section */}
+        <Paper className="record-form-card">
+          <div className="form-header">
+            <div>
+              <Typography
+  className="section-title"
+>
+  Patient Medical Record
+</Typography>
+
+<Typography
+  className="section-subtitle"
+>
+  Add and manage patient
+  treatment history
+</Typography>
+            </div>
+
+            <div className="record-count">
+              <span>
+                {records.length}
+              </span>
+              Records
+            </div>
           </div>
 
-          <Button
-            variant="contained"
-            className="download-btn"
-          >
-            Download Report
-          </Button>
-        </div>
+        
 
-        {/* Stats Cards */}
-        <div className="stats-grid">
-          <Paper className="stat-card">
-            <Typography>
-              Total Patients
-            </Typography>
-
-            <h2>450</h2>
-          </Paper>
-
-          <Paper className="stat-card">
-            <Typography>
-              Appointments
-            </Typography>
-
-            <h2>220</h2>
-          </Paper>
-
-          <Paper className="stat-card">
-            <Typography>
-              Consultations
-            </Typography>
-
-            <h2>180</h2>
-          </Paper>
-
-          <Paper className="stat-card">
-            <Typography>
-              Revenue
-            </Typography>
-
-            <h2>₹1,45,000</h2>
-          </Paper>
-        </div>
-
-        {/* Filter Section */}
-        <Paper className="filter-card">
-          <Typography
-            variant="h5"
-            className="card-title"
-          >
-            Filter Reports
-          </Typography>
-
-          <div className="filter-grid">
+          <div className="form-grid">
             <TextField
-              type="date"
+              label="Patient Name"
+              name="patientName"
+              value={
+                formData.patientName
+              }
+              onChange={
+                handleChange
+              }
               fullWidth
             />
 
             <TextField
-              select
-              label="Department"
+              label="Diagnosis"
+              name="diagnosis"
+              value={
+                formData.diagnosis
+              }
+              onChange={
+                handleChange
+              }
               fullWidth
-            >
-              <MenuItem value="">
-                All
-              </MenuItem>
+            />
 
-              <MenuItem value="Cardiology">
-                Cardiology
-              </MenuItem>
+            <TextField
+              label="Doctor Name"
+              name="doctorName"
+              value={
+                formData.doctorName
+              }
+              onChange={
+                handleChange
+              }
+              fullWidth
+            />
 
-              <MenuItem value="Neurology">
-                Neurology
-              </MenuItem>
+            <TextField
+              label="Medicines"
+              name="medicines"
+              value={
+                formData.medicines
+              }
+              onChange={
+                handleChange
+              }
+              fullWidth
+            />
 
-              <MenuItem value="Orthopedics">
-                Orthopedics
-              </MenuItem>
-            </TextField>
+            <TextField
+              multiline
+              rows={3}
+              label="Symptoms"
+              name="symptoms"
+              value={
+                formData.symptoms
+              }
+              onChange={
+                handleChange
+              }
+              className="full-width"
+              fullWidth
+            />
+
+            <TextField
+  type="date"
+  name="visitDate"
+  value={formData.visitDate}
+  onChange={handleChange}
+  fullWidth
+/>
 
             <TextField
               select
-              label="Report Type"
+              label="Status"
+              name="status"
+              value={
+                formData.status
+              }
+              onChange={
+                handleChange
+              }
               fullWidth
             >
               <MenuItem value="">
-                All
+                Select Status
               </MenuItem>
 
-              <MenuItem value="Billing">
-                Billing
+              <MenuItem value="Ongoing">
+                Ongoing
               </MenuItem>
 
-              <MenuItem value="Consultation">
-                Consultation
-              </MenuItem>
-
-              <MenuItem value="Appointments">
-                Appointments
+              <MenuItem value="Completed">
+                Completed
               </MenuItem>
             </TextField>
+          </div>
 
+          <div className="btn-wrapper">
             <Button
               variant="contained"
-              className="generate-btn"
+              className="save-btn"
+              onClick={
+                handleSave
+              }
             >
-              Generate
+              {editIndex !==
+              null
+                ? "Update Record"
+                : "Save Record"}
             </Button>
           </div>
         </Paper>
 
-        {/* Reports Table */}
+        {/* Table */}
         <Paper className="table-card">
           <Typography
-            variant="h5"
-            mb={3}
+            className="table-title"
           >
-            Report Records
+            Medical Records
           </Typography>
 
           <TableContainer>
@@ -194,11 +264,11 @@ const Reports = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    Report ID
+                    Patient
                   </TableCell>
 
                   <TableCell>
-                    Patient
+                    Diagnosis
                   </TableCell>
 
                   <TableCell>
@@ -206,83 +276,93 @@ const Reports = () => {
                   </TableCell>
 
                   <TableCell>
-                    Department
-                  </TableCell>
-
-                  <TableCell>
-                    Date
-                  </TableCell>
-
-                  <TableCell>
-                    Amount
+                    Visit Date
                   </TableCell>
 
                   <TableCell>
                     Status
                   </TableCell>
+
+                  <TableCell>
+                    Action
+                  </TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
-                {reports.map(
-                  (report) => (
-                    <TableRow
-                      key={
-                        report.id
-                      }
-                    >
-                      <TableCell>
-                        {
-                          report.id
+                {records.length >
+                0 ? (
+                  records.map(
+                    (
+                      record,
+                      index
+                    ) => (
+                      <TableRow
+                        key={
+                          index
                         }
-                      </TableCell>
-
-                      <TableCell>
-                        {
-                          report.patient
-                        }
-                      </TableCell>
-
-                      <TableCell>
-                        {
-                          report.doctor
-                        }
-                      </TableCell>
-
-                      <TableCell>
-                        {
-                          report.department
-                        }
-                      </TableCell>
-
-                      <TableCell>
-                        {
-                          report.date
-                        }
-                      </TableCell>
-
-                      <TableCell>
-                        ₹
-                        {
-                          report.amount
-                        }
-                      </TableCell>
-
-                      <TableCell>
-                        <Chip
-                          label={
-                            report.status
+                      >
+                        <TableCell>
+                          {
+                            record.patientName
                           }
-                          color={
-                            report.status ===
-                            "Completed"
-                              ? "success"
-                              : "warning"
+                        </TableCell>
+
+                        <TableCell>
+                          {
+                            record.diagnosis
                           }
-                        />
-                      </TableCell>
-                    </TableRow>
+                        </TableCell>
+
+                        <TableCell>
+                          {
+                            record.doctorName
+                          }
+                        </TableCell>
+
+                        <TableCell>
+                          {
+                            record.visitDate
+                          }
+                        </TableCell>
+
+                        <TableCell>
+                          <Chip
+                            label={
+                              record.status
+                            }
+                            color={
+                              record.status ===
+                              "Completed"
+                                ? "success"
+                                : "warning"
+                            }
+                          />
+                        </TableCell>
+
+                        <TableCell>
+                          <IconButton
+                            onClick={() =>
+                              handleEdit(
+                                index
+                              )
+                            }
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    )
                   )
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={6}
+                      align="center"
+                    >
+                      No Medical Records Found
+                    </TableCell>
+                  </TableRow>
                 )}
               </TableBody>
             </Table>
@@ -293,4 +373,4 @@ const Reports = () => {
   );
 };
 
-export default Reports;
+export default MedicalRecords;

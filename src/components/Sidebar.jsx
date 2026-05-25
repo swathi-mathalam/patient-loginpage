@@ -60,7 +60,7 @@ const Sidebar = () => {
 
           <NavLink to="/reports">
             <FileText size={18} />
-            Reports
+            Records
           </NavLink>
 
         </nav>

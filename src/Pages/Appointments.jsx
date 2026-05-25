@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Box,
   Paper,
   Typography,
   TextField,
@@ -15,7 +14,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Divider,
 } from "@mui/material";
 
 import MainLayout from "../components/MainLayout";
@@ -79,53 +77,48 @@ const Appointments = () => {
   return (
     <MainLayout
       title="Appointments"
-      subtitle="Manage patient appointments"
+      subtitle="Manage appointments"
     >
       <div className="appointments-page">
-        {/* Top Section */}
-        <div className="appointment-header">
+        {/* Header */}
+        <div className="top-header">
           <div>
             <Typography
               variant="h4"
               className="page-title"
             >
-              Appointments
+              Appointment
+              Management
             </Typography>
 
             <Typography className="page-subtitle">
-              Schedule and manage
-              patient appointments
+              Schedule patient
+              appointments
             </Typography>
           </div>
 
           <Paper className="stats-card">
-            <Typography variant="h6">
+            <Typography>
               Total Appointments
             </Typography>
 
-            <Typography className="stats-number">
+            <h2>
               {
                 appointments.length
               }
-            </Typography>
+            </h2>
           </Paper>
         </div>
 
-        {/* Form Card */}
-        <Paper className="appointment-card">
+        {/* Form */}
+        <Paper className="appointment-form-card">
           <Typography
             variant="h5"
-            className="card-title"
+            className="section-title"
           >
-            Schedule Appointment
+            Schedule New
+            Appointment
           </Typography>
-
-          <Typography className="card-subtitle">
-            Fill patient and doctor
-            details
-          </Typography>
-
-          <Divider sx={{ mb: 4 }} />
 
           <div className="form-grid">
             <TextField
@@ -177,30 +170,34 @@ const Appointments = () => {
             />
 
             <TextField
-  type="date"
-  name="date"
-  value={formData.date}
-  onChange={handleChange}
-  fullWidth
-  slotProps={{
-    inputLabel: {
-      shrink: true,
-    },
-  }}
-/>
+              type="date"
+              name="date"
+              value={
+                formData.date
+              }
+              onChange={
+                handleChange
+              }
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
 
             <TextField
-  type="time"
-  name="time"
-  value={formData.time}
-  onChange={handleChange}
-  fullWidth
-  slotProps={{
-    inputLabel: {
-      shrink: true,
-    },
-  }}
-/>
+              type="time"
+              name="time"
+              value={
+                formData.time
+              }
+              onChange={
+                handleChange
+              }
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
 
             <TextField
               label="Reason"
@@ -212,6 +209,9 @@ const Appointments = () => {
                 handleChange
               }
               fullWidth
+              multiline
+              rows={2}
+              className="full-width"
             />
 
             <TextField
@@ -240,24 +240,27 @@ const Appointments = () => {
             </TextField>
           </div>
 
-          <Button
-            variant="contained"
-            className="save-btn"
-            onClick={
-              handleSubmit
-            }
-          >
-            Save Appointment
-          </Button>
+          <div className="button-wrapper">
+            <Button
+              variant="contained"
+              className="save-btn"
+              onClick={
+                handleSubmit
+              }
+            >
+              Save Appointment
+            </Button>
+          </div>
         </Paper>
 
         {/* Table */}
-        <Paper className="table-card">
+        <Paper className="appointment-table-card">
           <Typography
             variant="h5"
             mb={3}
           >
-            Appointment Records
+            Appointment
+            Records
           </Typography>
 
           <TableContainer>
@@ -265,23 +268,29 @@ const Appointments = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    ID
+                    Appointment ID
                   </TableCell>
+
                   <TableCell>
                     Patient
                   </TableCell>
+
                   <TableCell>
                     Doctor
                   </TableCell>
+
                   <TableCell>
                     Department
                   </TableCell>
+
                   <TableCell>
                     Date
                   </TableCell>
+
                   <TableCell>
                     Time
                   </TableCell>
+
                   <TableCell>
                     Status
                   </TableCell>
@@ -292,9 +301,7 @@ const Appointments = () => {
                 {appointments.length >
                 0 ? (
                   appointments.map(
-                    (
-                      item
-                    ) => (
+                    (item) => (
                       <TableRow
                         key={
                           item.appointmentId
@@ -361,8 +368,8 @@ const Appointments = () => {
                       colSpan={7}
                       align="center"
                     >
-                      No Appointments
-                      Found
+                      No Appointment
+                      Records Found
                     </TableCell>
                   </TableRow>
                 )}
@@ -371,10 +378,11 @@ const Appointments = () => {
           </TableContainer>
         </Paper>
 
-        {/* Popup */}
         <Snackbar
           open={openPopup}
-          autoHideDuration={3000}
+          autoHideDuration={
+            3000
+          }
           onClose={() =>
             setOpenPopup(false)
           }
@@ -383,10 +391,7 @@ const Appointments = () => {
             horizontal: "right",
           }}
         >
-          <Alert
-            severity="success"
-            variant="filled"
-          >
+          <Alert severity="success">
             Appointment Saved
             Successfully!
           </Alert>

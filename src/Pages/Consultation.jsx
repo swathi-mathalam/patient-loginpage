@@ -18,6 +18,7 @@ import {
   Alert,
   Chip,
   Divider,
+  Box,
 } from "@mui/material";
 
 import MainLayout from "../components/MainLayout";
@@ -29,8 +30,10 @@ const Consultation = () => {
     setConsultations,
   ] = useState([]);
 
-  const [openPopup, setOpenPopup] =
-    useState(false);
+  const [
+    openPopup,
+    setOpenPopup,
+  ] = useState(false);
 
   const [formData, setFormData] =
     useState({
@@ -44,7 +47,9 @@ const Consultation = () => {
       status: "In Progress",
     });
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]:
@@ -90,7 +95,7 @@ const Consultation = () => {
       <div className="consultation-page">
         {/* Header */}
         <div className="consultation-header">
-          <div>
+          <Box>
             <Typography
               variant="h4"
               className="page-title"
@@ -103,10 +108,10 @@ const Consultation = () => {
               consultations and
               treatment records
             </Typography>
-          </div>
+          </Box>
 
           <Paper className="stats-card">
-            <Typography variant="h6">
+            <Typography variant="body1">
               Total Consultations
             </Typography>
 
@@ -118,8 +123,11 @@ const Consultation = () => {
           </Paper>
         </div>
 
-        {/* Form */}
-        <Paper className="consultation-card">
+        {/* Form Card */}
+        <Paper
+          elevation={0}
+          className="consultation-card"
+        >
           <Typography
             variant="h5"
             className="card-title"
@@ -128,11 +136,13 @@ const Consultation = () => {
           </Typography>
 
           <Typography className="card-subtitle">
-            Add diagnosis and
+            Add diagnosis &
             treatment details
           </Typography>
 
-          <Divider sx={{ mb: 4 }} />
+          <Divider
+            sx={{ mb: 4 }}
+          />
 
           <div className="form-grid">
             <TextField
@@ -172,6 +182,7 @@ const Consultation = () => {
             />
 
             <TextField
+              select
               label="Department"
               name="department"
               value={
@@ -181,7 +192,23 @@ const Consultation = () => {
                 handleChange
               }
               fullWidth
-            />
+            >
+              <MenuItem value="">
+                Select
+              </MenuItem>
+
+              <MenuItem value="Cardiology">
+                Cardiology
+              </MenuItem>
+
+              <MenuItem value="Neurology">
+                Neurology
+              </MenuItem>
+
+              <MenuItem value="Orthopedics">
+                Orthopedics
+              </MenuItem>
+            </TextField>
 
             <TextField
               multiline
@@ -252,24 +279,30 @@ const Consultation = () => {
             </TextField>
           </div>
 
-          <Button
-            variant="contained"
-            className="save-btn"
-            onClick={
-              handleSubmit
-            }
-          >
-            Save Consultation
-          </Button>
+          <div className="btn-wrapper">
+            <Button
+              variant="contained"
+              className="save-btn"
+              onClick={
+                handleSubmit
+              }
+            >
+              Save Consultation
+            </Button>
+          </div>
         </Paper>
 
         {/* Table */}
-        <Paper className="table-card">
+        <Paper
+          elevation={0}
+          className="table-card"
+        >
           <Typography
             variant="h5"
             mb={3}
           >
-            Consultation History
+            Consultation
+            History
           </Typography>
 
           <TableContainer>
@@ -375,13 +408,16 @@ const Consultation = () => {
         {/* Snackbar */}
         <Snackbar
           open={openPopup}
-          autoHideDuration={3000}
+          autoHideDuration={
+            3000
+          }
           onClose={() =>
             setOpenPopup(false)
           }
           anchorOrigin={{
             vertical: "top",
-            horizontal: "right",
+            horizontal:
+              "right",
           }}
         >
           <Alert

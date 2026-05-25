@@ -1,98 +1,152 @@
 .appointments-page {
-  padding: 24px;
-}
-
-.appointment-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-  gap: 20px;
-}
-
-.page-title {
-  font-weight: 700 !important;
-  color: #1e293b;
-}
-
-.page-subtitle {
-  color: #64748b;
-  margin-top: 5px;
-}
-
-.stats-card {
-  min-width: 240px;
-  padding: 20px;
-  border-radius: 20px !important;
-  text-align: center;
-  box-shadow: 0 8px 24px
-    rgba(0, 0, 0, 0.08) !important;
-}
-
-.stats-number {
-  font-size: 34px;
-  font-weight: 700;
-  color: #1976d2;
-}
-
-.appointment-card,
-.table-card {
   padding: 30px;
-  border-radius: 24px !important;
-  box-shadow: 0 8px 30px
-    rgba(0, 0, 0, 0.08) !important;
-  margin-bottom: 25px;
+  background: #f4f7fc;
+  min-height: 100vh;
+
+  .top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    .page-title {
+      font-size: 30px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .page-subtitle {
+      color: #64748b;
+      margin-top: 6px;
+      font-size: 15px;
+    }
+
+    .stats-card {
+      min-width: 220px;
+      padding: 22px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      background: white;
+
+      h2 {
+        margin-top: 10px;
+        font-size: 32px;
+        color: #1976d2;
+      }
+    }
+  }
+
+  .appointment-form-card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 25px;
+      color: #1e293b;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(250px, 1fr)
+      );
+      gap: 20px;
+
+      .full-width {
+        grid-column: span 2;
+      }
+
+      .MuiTextField-root {
+        background: #fff;
+      }
+    }
+
+    .button-wrapper {
+      margin-top: 25px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .save-btn {
+      border-radius: 12px;
+      padding: 12px 30px;
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: none;
+      box-shadow: none;
+    }
+  }
+
+  .appointment-table-card {
+    background: white;
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+
+    h5 {
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .MuiTableHead-root {
+      background: #f1f5f9;
+
+      .MuiTableCell-root {
+        font-weight: 700;
+        color: #334155;
+      }
+    }
+
+    .MuiTableBody-root {
+      .MuiTableRow-root {
+        transition: 0.3s ease;
+
+        &:hover {
+          background: #f8fafc;
+        }
+      }
+    }
+
+    .MuiChip-root {
+      font-weight: 600;
+      border-radius: 10px;
+    }
+  }
 }
 
-.card-title {
-  font-weight: 700 !important;
-}
-
-.card-subtitle {
-  color: #64748b;
-  margin-bottom: 15px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns:
-    repeat(2, 1fr);
-  gap: 20px;
-}
-
-.save-btn {
-  margin-top: 30px !important;
-  height: 50px;
-  min-width: 220px;
-  border-radius: 14px !important;
-  text-transform: none !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
-}
-
-.MuiOutlinedInput-root {
-  border-radius: 14px !important;
-}
-
-.MuiTableHead-root {
-  background: #f8fafc;
-}
-
-.MuiTableCell-head {
-  font-weight: 700 !important;
-}
-
+/* Responsive */
 @media (max-width: 768px) {
-  .appointment-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  .appointments-page {
+    padding: 20px;
 
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
+    .top-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
-  .stats-card {
-    width: 100%;
+    .appointment-form-card {
+      padding: 20px;
+
+      .form-grid {
+        grid-template-columns: 1fr;
+
+        .full-width {
+          grid-column: span 1;
+        }
+      }
+    }
+
+    .appointment-table-card {
+      overflow-x: auto;
+    }
   }
 }
