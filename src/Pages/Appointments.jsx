@@ -80,35 +80,6 @@ const Appointments = () => {
       subtitle="Manage appointments"
     >
       <div className="appointments-page">
-        {/* Header */}
-        <div className="top-header">
-          <div>
-            <Typography
-              variant="h4"
-              className="page-title"
-            >
-              Appointment
-              Management
-            </Typography>
-
-            <Typography className="page-subtitle">
-              Schedule patient
-              appointments
-            </Typography>
-          </div>
-
-          <Paper className="stats-card">
-            <Typography>
-              Total Appointments
-            </Typography>
-
-            <h2>
-              {
-                appointments.length
-              }
-            </h2>
-          </Paper>
-        </div>
 
         {/* Form */}
         <Paper className="appointment-form-card">
@@ -116,9 +87,32 @@ const Appointments = () => {
             variant="h5"
             className="section-title"
           >
-            Schedule New
-            Appointment
+            Schedule New Appointment
           </Typography>
+
+          {/* Total Appointments Inside */}
+          <Paper
+            className="stats-card"
+            sx={{
+              p: 2,
+              mb: 3,
+              borderRadius: "12px",
+              textAlign: "center",
+              boxShadow:
+                "0 4px 12px rgba(0,0,0,0.08)",
+            }}
+          >
+            <Typography>
+              Total Appointments
+            </Typography>
+
+            <Typography
+              variant="h4"
+              fontWeight="bold"
+            >
+              {appointments.length}
+            </Typography>
+          </Paper>
 
           <div className="form-grid">
             <TextField
@@ -209,8 +203,7 @@ const Appointments = () => {
                 handleChange
               }
               fullWidth
-              multiline
-              rows={2}
+              size="small"
               className="full-width"
             />
 
@@ -259,8 +252,7 @@ const Appointments = () => {
             variant="h5"
             mb={3}
           >
-            Appointment
-            Records
+            Appointment Records
           </Typography>
 
           <TableContainer>

@@ -187,19 +187,19 @@ const MedicalRecords = () => {
             />
 
             <TextField
-              multiline
-              rows={3}
-              label="Symptoms"
-              name="symptoms"
-              value={
-                formData.symptoms
-              }
-              onChange={
-                handleChange
-              }
-              className="full-width"
-              fullWidth
-            />
+  multiline
+  rows={2}
+  label="Symptoms"
+  name="symptoms"
+  value={
+    formData.symptoms
+  }
+  onChange={
+    handleChange
+  }
+  className="small-symptoms"
+  fullWidth
+/>
 
             <TextField
   type="date"
