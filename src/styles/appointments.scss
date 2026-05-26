@@ -1,83 +1,137 @@
+/* =========================
+   MAIN PAGE LAYOUT
+========================= */
+
 .appointments-page {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 20px;
+  padding: 12px;
+  background: #f5f7fb;
 }
+
+/* =========================
+   SUMMARY CARDS
+========================= */
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.summary-card {
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.summary-card h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+/* =========================
+   MAIN CONTENT LAYOUT
+========================= */
+
+.appointment-content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 12px;
+  align-items: start;
+}
+
+/* =========================
+   FORM CARD
+========================= */
 
 .appointment-form-card {
-  padding: 24px;
-  border-radius: 18px !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+  padding: 14px;
+  border-radius: 10px;
 }
 
-.section-title {
-  font-weight: 700 !important;
-  margin-bottom: 20px !important;
-  color: #222;
+.title {
+  font-size: 18px !important;
+  margin-bottom: 10px !important;
 }
 
-/* Total Appointments Card */
-.stats-card {
-  padding: 18px !important;
-  border-radius: 16px !important;
-  margin-bottom: 24px;
-  text-align: center;
-  background: #f8fafc;
-  border: 1px solid #e5e7eb;
-  box-shadow: none !important;
-
-  h2 {
-    margin: 8px 0 0;
-    font-size: 30px;
-    font-weight: 700;
-    color: #4f46e5;
-  }
-}
+/* =========================
+   FORM GRID
+========================= */
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(250px, 1fr)
-  );
-  gap: 18px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
-.full-width {
-  grid-column: span 2;
+/* =========================
+   REASON BOX
+========================= */
+
+.reason-wrapper {
+  margin-top: 10px;
 }
 
-.button-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 24px;
+.reason-wrapper .MuiTextField-root {
+  font-size: 13px;
 }
+
+/* =========================
+   BUTTON
+========================= */
 
 .save-btn {
-  border-radius: 12px !important;
-  padding: 10px 24px !important;
-  font-size: 15px !important;
-  text-transform: none !important;
-  background: linear-gradient(
-    135deg,
-    #4f46e5,
-    #7c3aed
-  ) !important;
+  margin-top: 10px !important;
+  padding: 6px 14px !important;
+  font-size: 13px !important;
+  border-radius: 6px !important;
 }
+
+/* =========================
+   TABLE CARD
+========================= */
 
 .appointment-table-card {
-  padding: 24px;
-  border-radius: 18px !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+  padding: 14px;
+  border-radius: 10px;
 }
 
-@media (max-width: 768px) {
-  .full-width {
-    grid-column: span 1;
-  }
+/* =========================
+   TABLE HEADER
+========================= */
 
-  .button-wrapper {
-    justify-content: center;
-  }
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* small inputs in filters */
+.filters .MuiTextField-root {
+  min-width: 120px;
+}
+
+/* =========================
+   TABLE STYLING
+========================= */
+
+.MuiTableCell-root {
+  padding: 8px !important;
+  font-size: 13px !important;
+}
+
+/* =========================
+   CHIP STYLE
+========================= */
+
+.MuiChip-root {
+  font-size: 11px !important;
+  height: 22px !important;
 }

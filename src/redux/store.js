@@ -1,5 +1,3 @@
-// src/redux/store.js
-
 import {
   legacy_createStore as createStore,
   applyMiddleware,
@@ -8,13 +6,17 @@ import {
 
 import createSagaMiddleware from "redux-saga";
 
-// Login
+// ================= LOGIN =================
 import authReducer from "./loginpage/authReducer";
 import loginRootSaga from "./loginpage/rootSaga";
 
-// Patient Registration
+// ================= PATIENT =================
 import patientReducer from "./patientregistrationpage/patientReducer";
 import patientRootSaga from "./patientregistrationpage/rootSaga";
+
+// ================= APPOINTMENT =================
+import appointmentReducer from "./appointment/appointmentReducer";
+import appointmentSaga from "./appointment/appointmentSaga";
 
 const sagaMiddleware =
   createSagaMiddleware();
@@ -22,7 +24,12 @@ const sagaMiddleware =
 const rootReducer =
   combineReducers({
     auth: authReducer,
-    patient: patientReducer, // ✅ Add this
+
+    patient:
+      patientReducer,
+
+    appointment:
+      appointmentReducer,
   });
 
 const store = createStore(
@@ -32,13 +39,18 @@ const store = createStore(
   )
 );
 
-// Run sagas
+// ================= RUN SAGAS =================
+
 sagaMiddleware.run(
   loginRootSaga
 );
 
 sagaMiddleware.run(
   patientRootSaga
+);
+
+sagaMiddleware.run(
+  appointmentSaga
 );
 
 export default store;

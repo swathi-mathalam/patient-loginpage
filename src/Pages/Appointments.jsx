@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import {
   Paper,
   Typography,
@@ -16,63 +21,123 @@ import {
   TableRow,
 } from "@mui/material";
 
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
+
+import { Formik } from "formik";
+import * as Yup from "yup";
+
 import MainLayout from "../components/MainLayout";
+
+import {
+  getAppointments,
+  createAppointment,
+  deleteAppointment,
+} from "../redux/appointment/appointmentActions";
+
 import "../styles/appointments.scss";
 
-const Appointments = () => {
-  const [appointments, setAppointments] =
-    useState([]);
+const validationSchema =
+  Yup.object({
+    patientId:
+      Yup.string().required(
+        "Patient ID is required"
+      ),
+    patientName:
+      Yup.string().required(
+        "Patient name is required"
+      ),
+    doctorName:
+      Yup.string().required(
+        "Doctor name is required"
+      ),
+    department:
+      Yup.string().required(
+        "Department is required"
+      ),
+    date:
+      Yup.string().required(
+        "Date is required"
+      ),
+    time:
+      Yup.string().required(
+        "Time is required"
+      ),
+  });
 
-  const [openPopup, setOpenPopup] =
+const Appointments = () => {
+  const dispatch =
+    useDispatch();
+
+  const [search, setSearch] =
+    useState("");
+
+  const [statusFilter,
+    setStatusFilter] =
+    useState("All");
+
+  const [openSnackbar,
+    setOpenSnackbar] =
     useState(false);
 
-  const [formData, setFormData] =
-    useState({
-      patientId: "",
-      patientName: "",
-      doctorName: "",
-      department: "",
-      date: "",
-      time: "",
-      reason: "",
-      status: "Pending",
-    });
+  const {
+    appointments,
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]:
-        e.target.value,
-    });
-  };
+  } = useSelector(
+    (state) =>
+      state.appointment
+  );
 
-  const handleSubmit = () => {
-    const newAppointment = {
-      appointmentId: `APT${Math.floor(
-        1000 +
-          Math.random() * 9000
-      )}`,
-      ...formData,
-    };
+  useEffect(() => {
+    dispatch(
+      getAppointments()
+    );
+  }, [dispatch]);
 
-    setAppointments([
-      newAppointment,
-      ...appointments,
+  const filteredAppointments =
+    useMemo(() => {
+      return appointments.filter(
+        (item) => {
+          const matchesSearch =
+            item.patientName
+              ?.toLowerCase()
+              .includes(
+                search.toLowerCase()
+              );
+
+          const matchesStatus =
+            statusFilter ===
+              "All" ||
+            item.status ===
+              statusFilter;
+
+          return (
+            matchesSearch &&
+            matchesStatus
+          );
+        }
+      );
+    }, [
+      appointments,
+      search,
+      statusFilter,
     ]);
 
-    setOpenPopup(true);
+  const pendingCount =
+    appointments.filter(
+      (item) =>
+        item.status ===
+        "Pending"
+    ).length;
 
-    setFormData({
-      patientId: "",
-      patientName: "",
-      doctorName: "",
-      department: "",
-      date: "",
-      time: "",
-      reason: "",
-      status: "Pending",
-    });
-  };
+  const completedCount =
+    appointments.filter(
+      (item) =>
+        item.status ===
+        "Completed"
+    ).length;
 
   return (
     <MainLayout
@@ -80,219 +145,316 @@ const Appointments = () => {
       subtitle="Manage appointments"
     >
       <div className="appointments-page">
-
-        {/* Form */}
-        <Paper className="appointment-form-card">
-          <Typography
-            variant="h5"
-            className="section-title"
-          >
-            Schedule New Appointment
-          </Typography>
-
-          {/* Total Appointments Inside */}
-          <Paper
-            className="stats-card"
-            sx={{
-              p: 2,
-              mb: 3,
-              borderRadius: "12px",
-              textAlign: "center",
-              boxShadow:
-                "0 4px 12px rgba(0,0,0,0.08)",
-            }}
-          >
+        <div className="summary-cards">
+          <Paper className="summary-card">
             <Typography>
-              Total Appointments
+              Total
             </Typography>
-
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-            >
-              {appointments.length}
-            </Typography>
+            <h2>
+              {
+                appointments.length
+              }
+            </h2>
           </Paper>
 
-          <div className="form-grid">
-            <TextField
-              label="Patient ID"
-              name="patientId"
-              value={
-                formData.patientId
-              }
-              onChange={
-                handleChange
-              }
-              fullWidth
-            />
+          <Paper className="summary-card">
+            <Typography>
+              Pending
+            </Typography>
+            <h2>
+              {pendingCount}
+            </h2>
+          </Paper>
 
-            <TextField
-              label="Patient Name"
-              name="patientName"
-              value={
-                formData.patientName
+          <Paper className="summary-card">
+            <Typography>
+              Completed
+            </Typography>
+            <h2>
+              {
+                completedCount
               }
-              onChange={
-                handleChange
-              }
-              fullWidth
-            />
+            </h2>
+          </Paper>
+        </div>
 
-            <TextField
-              label="Doctor Name"
-              name="doctorName"
-              value={
-                formData.doctorName
-              }
-              onChange={
-                handleChange
-              }
-              fullWidth
-            />
-
-            <TextField
-              label="Department"
-              name="department"
-              value={
-                formData.department
-              }
-              onChange={
-                handleChange
-              }
-              fullWidth
-            />
-
-            <TextField
-              type="date"
-              name="date"
-              value={
-                formData.date
-              }
-              onChange={
-                handleChange
-              }
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-
-            <TextField
-              type="time"
-              name="time"
-              value={
-                formData.time
-              }
-              onChange={
-                handleChange
-              }
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-
-            <TextField
-              label="Reason"
-              name="reason"
-              value={
-                formData.reason
-              }
-              onChange={
-                handleChange
-              }
-              fullWidth
-              size="small"
-              className="full-width"
-            />
-
-            <TextField
-              select
-              label="Status"
-              name="status"
-              value={
-                formData.status
-              }
-              onChange={
-                handleChange
-              }
-              fullWidth
+        <div className="appointment-content">
+          <Paper className="appointment-form-card">
+            <Typography
+              variant="h5"
+              className="title"
             >
-              <MenuItem value="Pending">
-                Pending
-              </MenuItem>
+              Schedule Appointment
+            </Typography>
 
-              <MenuItem value="Confirmed">
-                Confirmed
-              </MenuItem>
-
-              <MenuItem value="Completed">
-                Completed
-              </MenuItem>
-            </TextField>
-          </div>
-
-          <div className="button-wrapper">
-            <Button
-              variant="contained"
-              className="save-btn"
-              onClick={
-                handleSubmit
+            <Formik
+              initialValues={{
+                patientId:
+                  "",
+                patientName:
+                  "",
+                doctorName:
+                  "",
+                department:
+                  "",
+                date: "",
+                time: "",
+                appointmentType:
+                  "General Checkup",
+                reason:
+                  "",
+                status:
+                  "Pending",
+              }}
+              validationSchema={
+                validationSchema
               }
+              onSubmit={(
+                values,
+                {
+                  resetForm,
+                }
+              ) => {
+                dispatch(
+                  createAppointment(
+                    values
+                  )
+                );
+
+                setOpenSnackbar(
+                  true
+                );
+
+                resetForm();
+              }}
             >
-              Save Appointment
-            </Button>
-          </div>
-        </Paper>
+              {({
+                values,
+                handleChange,
+                handleSubmit,
+                touched,
+                errors,
+              }) => (
+                <form
+                  onSubmit={
+                    handleSubmit
+                  }
+                >
+                  <div className="form-grid">
+                    <TextField
+                      label="Patient ID"
+                      name="patientId"
+                      value={
+                        values.patientId
+                      }
+                      onChange={
+                        handleChange
+                      }
+                      error={
+                        touched.patientId &&
+                        Boolean(
+                          errors.patientId
+                        )
+                      }
+                      helperText={
+                        touched.patientId &&
+                        errors.patientId
+                      }
+                      fullWidth
+                    />
 
-        {/* Table */}
-        <Paper className="appointment-table-card">
-          <Typography
-            variant="h5"
-            mb={3}
-          >
-            Appointment Records
-          </Typography>
+                    <TextField
+                      label="Patient Name"
+                      name="patientName"
+                      value={
+                        values.patientName
+                      }
+                      onChange={
+                        handleChange
+                      }
+                      fullWidth
+                    />
 
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    Appointment ID
-                  </TableCell>
+                    <TextField
+                      label="Doctor Name"
+                      name="doctorName"
+                      value={
+                        values.doctorName
+                      }
+                      onChange={
+                        handleChange
+                      }
+                      fullWidth
+                    />
 
-                  <TableCell>
-                    Patient
-                  </TableCell>
+                    <TextField
+                      label="Department"
+                      name="department"
+                      value={
+                        values.department
+                      }
+                      onChange={
+                        handleChange
+                      }
+                      fullWidth
+                    />
 
-                  <TableCell>
-                    Doctor
-                  </TableCell>
+                    <TextField
+                      type="date"
+                      name="date"
+                      value={
+                        values.date
+                      }
+                      onChange={
+                        handleChange
+                      }
+                      fullWidth
+                      InputLabelProps={{
+                        shrink:
+                          true,
+                      }}
+                    />
 
-                  <TableCell>
-                    Department
-                  </TableCell>
+                    <TextField
+                      type="time"
+                      name="time"
+                      value={
+                        values.time
+                      }
+                      onChange={
+                        handleChange
+                      }
+                      fullWidth
+                    />
 
-                  <TableCell>
-                    Date
-                  </TableCell>
+                    <TextField
+                      select
+                      label="Type"
+                      name="appointmentType"
+                      value={
+                        values.appointmentType
+                      }
+                      onChange={
+                        handleChange
+                      }
+                      fullWidth
+                    >
+                      <MenuItem value="General Checkup">
+                        General Checkup
+                      </MenuItem>
+                      <MenuItem value="Follow-up">
+                        Follow-up
+                      </MenuItem>
+                    </TextField>
 
-                  <TableCell>
-                    Time
-                  </TableCell>
+                    <TextField
+                      select
+                      label="Status"
+                      name="status"
+                      value={
+                        values.status
+                      }
+                      onChange={
+                        handleChange
+                      }
+                      fullWidth
+                    >
+                      <MenuItem value="Pending">
+                        Pending
+                      </MenuItem>
+                      <MenuItem value="Confirmed">
+                        Confirmed
+                      </MenuItem>
+                      <MenuItem value="Completed">
+                        Completed
+                      </MenuItem>
+                    </TextField>
+                  </div>
 
-                  <TableCell>
-                    Status
-                  </TableCell>
-                </TableRow>
-              </TableHead>
+                  <div className="reason-wrapper">
+  <TextField
+    label="Reason"
+    name="reason"
+    value={values.reason}
+    onChange={handleChange}
+    multiline
+    rows={2}
+    fullWidth
+  />
+</div>
 
-              <TableBody>
-                {appointments.length >
-                0 ? (
-                  appointments.map(
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className="save-btn"
+                  >
+                    Save Appointment
+                  </Button>
+                </form>
+              )}
+            </Formik>
+          </Paper>
+
+          <Paper className="appointment-table-card">
+            <div className="table-header">
+              <Typography variant="h5">
+                Records
+              </Typography>
+
+              <div className="filters">
+                <TextField
+                  size="small"
+                  label="Search"
+                  value={search}
+                  onChange={(e) =>
+                    setSearch(
+                      e.target.value
+                    )
+                  }
+                />
+
+                <TextField
+                  select
+                  size="small"
+                  value={
+                    statusFilter
+                  }
+                  onChange={(e) =>
+                    setStatusFilter(
+                      e.target.value
+                    )
+                  }
+                >
+                  <MenuItem value="All">
+                    All
+                  </MenuItem>
+                  <MenuItem value="Pending">
+                    Pending
+                  </MenuItem>
+                  <MenuItem value="Completed">
+                    Completed
+                  </MenuItem>
+                </TextField>
+              </div>
+            </div>
+
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Patient</TableCell>
+                    <TableCell>Doctor</TableCell>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>
+                      Action
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+
+                <TableBody>
+                  {filteredAppointments.map(
                     (item) => (
                       <TableRow
                         key={
@@ -304,37 +466,21 @@ const Appointments = () => {
                             item.appointmentId
                           }
                         </TableCell>
-
                         <TableCell>
                           {
                             item.patientName
                           }
                         </TableCell>
-
                         <TableCell>
                           {
                             item.doctorName
                           }
                         </TableCell>
-
-                        <TableCell>
-                          {
-                            item.department
-                          }
-                        </TableCell>
-
                         <TableCell>
                           {
                             item.date
                           }
                         </TableCell>
-
-                        <TableCell>
-                          {
-                            item.time
-                          }
-                        </TableCell>
-
                         <TableCell>
                           <Chip
                             label={
@@ -342,50 +488,50 @@ const Appointments = () => {
                             }
                             color={
                               item.status ===
-                              "Confirmed"
+                              "Completed"
                                 ? "success"
                                 : item.status ===
-                                  "Completed"
-                                ? "info"
+                                  "Confirmed"
+                                ? "primary"
                                 : "warning"
                             }
                           />
                         </TableCell>
+                        <TableCell>
+                          <Button
+                            color="error"
+                            onClick={() =>
+                              dispatch(
+                                deleteAppointment(
+                                  item.appointmentId
+                                )
+                              )
+                            }
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     )
-                  )
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={7}
-                      align="center"
-                    >
-                      No Appointment
-                      Records Found
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </div>
 
         <Snackbar
-          open={openPopup}
-          autoHideDuration={
-            3000
-          }
+          open={openSnackbar}
+          autoHideDuration={3000}
           onClose={() =>
-            setOpenPopup(false)
+            setOpenSnackbar(
+              false
+            )
           }
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
         >
           <Alert severity="success">
             Appointment Saved
-            Successfully!
+            Successfully
           </Alert>
         </Snackbar>
       </div>
