@@ -4,7 +4,7 @@
   background: #f4f7fc;
   overflow-x: hidden;
 }
-
+ 
 /* Sidebar Fixed */
 .sidebar {
   width: 270px;
@@ -21,7 +21,7 @@
   overflow-y: auto;
   z-index: 1000;
 }
-
+ 
 /* Right Section */
 .main-section {
   width: calc(100% - 270px);
@@ -31,7 +31,7 @@
   min-height: 100vh;
   overflow-x: hidden;
 }
-
+ 
 /* Header */
 .header {
   height: 90px;
@@ -44,7 +44,7 @@
   width: 100%;
   box-sizing: border-box;
 }
-
+ 
 /* Page Content */
 .content-wrapper {
   flex: 1;

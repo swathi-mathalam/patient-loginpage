@@ -1,11 +1,20 @@
 .header {
   background: #fff;
   height: 85px;
-  padding: 0 35px;
+
   display: flex;
-  justify-content: space-between;
+  justify-content:
+    space-between;
   align-items: center;
-  border-bottom: 1px solid #e5e7eb;
+
+  border-bottom: 1px solid
+    #e5e7eb;
+
+  padding-right: 35px;
+}
+
+.header-left {
+  padding-left: 20px;
 }
 
 /* Left */
@@ -92,4 +101,31 @@
   margin: 0;
   font-size: 14px;
   color: #6b7280;
+}.header {
+  background: #fff;
+  height: 85px;
+
+  display: flex;
+  justify-content:
+    space-between;
+  align-items: center;
+
+  border-bottom: 1px solid
+    #e5e7eb;
+
+  margin: 0;
+  width: 100%;
+}
+
+/* Left */
+.header-left {
+  padding-left: 24px;
+}
+
+/* Right */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-right: 24px;
 }

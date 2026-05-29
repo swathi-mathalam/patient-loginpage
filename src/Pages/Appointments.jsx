@@ -109,9 +109,9 @@ const Appointments = () => {
 
           const matchesStatus =
             statusFilter ===
-              "All" ||
+            "All" ||
             item.status ===
-              statusFilter;
+            statusFilter;
 
           return (
             matchesSearch &&
@@ -242,6 +242,7 @@ const Appointments = () => {
                 >
                   <div className="form-grid">
                     <TextField
+                      size="small"
                       label="Patient ID"
                       name="patientId"
                       value={
@@ -264,6 +265,7 @@ const Appointments = () => {
                     />
 
                     <TextField
+                      size="small"
                       label="Patient Name"
                       name="patientName"
                       value={
@@ -276,6 +278,7 @@ const Appointments = () => {
                     />
 
                     <TextField
+                      size="small"
                       label="Doctor Name"
                       name="doctorName"
                       value={
@@ -288,6 +291,7 @@ const Appointments = () => {
                     />
 
                     <TextField
+                      size="small"
                       label="Department"
                       name="department"
                       value={
@@ -300,22 +304,21 @@ const Appointments = () => {
                     />
 
                     <TextField
+                      size="small"
                       type="date"
                       name="date"
-                      value={
-                        values.date
-                      }
-                      onChange={
-                        handleChange
-                      }
+                      value={values.date}
+                      onChange={handleChange}
                       fullWidth
-                      InputLabelProps={{
-                        shrink:
-                          true,
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
                       }}
                     />
 
                     <TextField
+                      size="small"
                       type="time"
                       name="time"
                       value={
@@ -328,6 +331,7 @@ const Appointments = () => {
                     />
 
                     <TextField
+                      size="small"
                       select
                       label="Type"
                       name="appointmentType"
@@ -348,40 +352,32 @@ const Appointments = () => {
                     </TextField>
 
                     <TextField
+                      size="small"
                       select
                       label="Status"
                       name="status"
-                      value={
-                        values.status
-                      }
-                      onChange={
-                        handleChange
-                      }
+                      value={values.status}
+                      onChange={handleChange}
                       fullWidth
                     >
-                      <MenuItem value="Pending">
-                        Pending
-                      </MenuItem>
-                      <MenuItem value="Confirmed">
-                        Confirmed
-                      </MenuItem>
-                      <MenuItem value="Completed">
-                        Completed
-                      </MenuItem>
+                      <MenuItem value="Pending">Pending</MenuItem>
+                      <MenuItem value="Confirmed">Confirmed</MenuItem>
+                      <MenuItem value="Completed">Completed</MenuItem>
                     </TextField>
                   </div>
 
                   <div className="reason-wrapper">
-  <TextField
-    label="Reason"
-    name="reason"
-    value={values.reason}
-    onChange={handleChange}
-    multiline
-    rows={2}
-    fullWidth
-  />
-</div>
+                    <TextField
+                      size="small"
+                      label="Reason"
+                      name="reason"
+                      value={values.reason}
+                      onChange={handleChange}
+                      multiline
+                      rows={2}
+                      fullWidth
+                    />
+                  </div>
 
                   <Button
                     type="submit"
@@ -488,12 +484,12 @@ const Appointments = () => {
                             }
                             color={
                               item.status ===
-                              "Completed"
+                                "Completed"
                                 ? "success"
                                 : item.status ===
                                   "Confirmed"
-                                ? "primary"
-                                : "warning"
+                                  ? "primary"
+                                  : "warning"
                             }
                           />
                         </TableCell>
@@ -540,3 +536,4 @@ const Appointments = () => {
 };
 
 export default Appointments;
+
